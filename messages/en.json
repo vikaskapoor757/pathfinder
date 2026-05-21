@@ -1,0 +1,30 @@
+{
+  "site": {
+    "title": "Pathfinder",
+    "description": "Find your path after school"
+  },
+  "landing": {
+    "headline": "What comes after school?",
+    "subheadline": "Discover your path — based on your interests, strengths, and goals.",
+    "cta": "Get started",
+    "features": {
+      "personalized": "Personalized for you",
+      "personalizedDesc": "AI-powered guidance that adapts to your answers.",
+      "german": "All paths in Germany",
+      "germanDesc": "Apprenticeship, university, FSJ, work & travel, and much more.",
+      "free": "Try for free",
+      "freeDesc": "Start without an account and discover your options."
+    }
+  },
+  "chat": {
+    "title": "Your Pathfinder",
+    "inputPlaceholder": "Type your answer...",
+    "send": "Send",
+    "thinking": "Pathfinder is thinking...",
+    "newConversation": "New conversation"
+  },
+  "nav": {
+    "home": "Home",
+    "back": "Back"
+  }
+}

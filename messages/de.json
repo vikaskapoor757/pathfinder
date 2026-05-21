@@ -1,0 +1,30 @@
+{
+  "site": {
+    "title": "Pathfinder",
+    "description": "Finde deinen Weg nach der Schule"
+  },
+  "landing": {
+    "headline": "Was kommt nach der Schule?",
+    "subheadline": "Entdecke deinen Weg — basierend auf deinen Interessen, Stärken und Zielen.",
+    "cta": "Jetzt starten",
+    "features": {
+      "personalized": "Personalisiert für dich",
+      "personalizedDesc": "KI-gestützte Beratung, die auf deine Antworten eingeht.",
+      "german": "Alle deutschen Wege",
+      "germanDesc": "Ausbildung, Studium, FSJ, Work & Travel und vieles mehr.",
+      "free": "Kostenlos testen",
+      "freeDesc": "Starte ohne Anmeldung und entdecke deine Möglichkeiten."
+    }
+  },
+  "chat": {
+    "title": "Dein Pathfinder",
+    "inputPlaceholder": "Schreib deine Antwort...",
+    "send": "Senden",
+    "thinking": "Pathfinder denkt nach...",
+    "newConversation": "Neue Unterhaltung"
+  },
+  "nav": {
+    "home": "Start",
+    "back": "Zurück"
+  }
+}
