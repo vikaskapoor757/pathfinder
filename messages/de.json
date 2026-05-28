@@ -21,10 +21,58 @@
     "inputPlaceholder": "Schreib deine Antwort...",
     "send": "Senden",
     "thinking": "Pathfinder denkt nach...",
-    "newConversation": "Neue Unterhaltung"
+    "newConversation": "Neue Unterhaltung",
+    "saveCta": "Anmelden, um Gespräche zu speichern",
+    "saved": "Gespeichert"
   },
   "nav": {
     "home": "Start",
-    "back": "Zurück"
+    "back": "Zurück",
+    "login": "Anmelden",
+    "signup": "Registrieren",
+    "dashboard": "Übersicht",
+    "logout": "Abmelden"
+  },
+  "auth": {
+    "loginTitle": "Willkommen zurück",
+    "signupTitle": "Konto erstellen",
+    "email": "E-Mail-Adresse",
+    "password": "Passwort",
+    "passwordHint": "Mindestens 8 Zeichen",
+    "loginButton": "Anmelden",
+    "signupButton": "Konto erstellen",
+    "magicLinkButton": "Magischen Link senden",
+    "magicLinkSent": "Wir haben dir einen Link geschickt. Schau in dein Postfach.",
+    "tabPassword": "Passwort",
+    "tabMagic": "Magischer Link",
+    "noAccount": "Noch kein Konto?",
+    "hasAccount": "Schon ein Konto?",
+    "signupLink": "Jetzt registrieren",
+    "loginLink": "Hier anmelden",
+    "ageConfirm": "Ich bin mindestens 16 Jahre alt.",
+    "errorAgeRequired": "Bitte bestätige, dass du mindestens 16 Jahre alt bist.",
+    "errorGeneric": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
+    "errorInvalid": "E-Mail oder Passwort ist falsch.",
+    "errorWeakPassword": "Passwort muss mindestens 8 Zeichen lang sein.",
+    "checkEmail": "Bestätige deine E-Mail-Adresse, um dein Konto zu aktivieren."
+  },
+  "footer": {
+    "feedback": "Feedback",
+    "impressum": "Impressum",
+    "privacy": "Datenschutz"
+  },
+  "ageGate": {
+    "title": "Bist du mindestens 16 Jahre alt?",
+    "body": "Pathfinder ist für junge Menschen ab 16 Jahren gedacht. Bitte bestätige dein Alter, bevor du fortfährst.",
+    "confirm": "Ja, ich bin 16 oder älter",
+    "decline": "Nein, zurück zur Startseite",
+    "why": "Wir fragen das aus rechtlichen Gründen (DSGVO) und um sicherzustellen, dass unsere Beratung zu deiner Lebenssituation passt."
+  },
+  "dashboard": {
+    "title": "Deine Gespräche",
+    "empty": "Du hast noch keine Gespräche. Starte jetzt dein erstes!",
+    "startNew": "Neues Gespräch",
+    "untitled": "Unbenanntes Gespräch",
+    "openConversation": "Öffnen"
   }
 }

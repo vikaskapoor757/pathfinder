@@ -1,10 +1,16 @@
-import { useTranslations, useLocale } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import { SiteFooter } from "@/components/SiteFooter";
 
-export default function LandingPage() {
-  const t = useTranslations();
-  const locale = useLocale();
-  const otherLocale = locale === "de" ? "en" : "de";
+export default async function LandingPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const safeLocale: "de" | "en" = locale === "en" ? "en" : "de";
+  const otherLocale = safeLocale === "de" ? "en" : "de";
+  const t = await getTranslations({ locale: safeLocale });
 
   return (
     <div className="min-h-full flex flex-col">
@@ -26,7 +32,7 @@ export default function LandingPage() {
         <div className="max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-700 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
             <span className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse" />
-            {locale === "de" ? "KI-gestützte Berufsberatung" : "AI-powered career guidance"}
+            {safeLocale === "de" ? "KI-gestützte Berufsberatung" : "AI-powered career guidance"}
           </div>
 
           <h1 className="text-5xl font-extrabold tracking-tight text-gray-900 mb-4 leading-tight">
@@ -37,7 +43,7 @@ export default function LandingPage() {
           </p>
 
           <Link
-            href={`/${locale}/chat`}
+            href={`/${safeLocale}/chat`}
             className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-lg px-8 py-4 rounded-2xl transition-colors shadow-lg shadow-indigo-200"
           >
             {t("landing.cta")}
@@ -87,10 +93,7 @@ export default function LandingPage() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="text-center text-xs text-gray-400 py-6">
-        © {new Date().getFullYear()} Pathfinder
-      </footer>
+      <SiteFooter locale={safeLocale} />
     </div>
   );
 }

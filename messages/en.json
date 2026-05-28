@@ -21,10 +21,58 @@
     "inputPlaceholder": "Type your answer...",
     "send": "Send",
     "thinking": "Pathfinder is thinking...",
-    "newConversation": "New conversation"
+    "newConversation": "New conversation",
+    "saveCta": "Sign in to save your conversations",
+    "saved": "Saved"
   },
   "nav": {
     "home": "Home",
-    "back": "Back"
+    "back": "Back",
+    "login": "Sign in",
+    "signup": "Sign up",
+    "dashboard": "Dashboard",
+    "logout": "Sign out"
+  },
+  "auth": {
+    "loginTitle": "Welcome back",
+    "signupTitle": "Create your account",
+    "email": "Email address",
+    "password": "Password",
+    "passwordHint": "At least 8 characters",
+    "loginButton": "Sign in",
+    "signupButton": "Create account",
+    "magicLinkButton": "Send magic link",
+    "magicLinkSent": "We sent you a link. Check your inbox.",
+    "tabPassword": "Password",
+    "tabMagic": "Magic link",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "signupLink": "Sign up",
+    "loginLink": "Sign in",
+    "ageConfirm": "I am at least 16 years old.",
+    "errorAgeRequired": "Please confirm that you are at least 16 years old.",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "errorInvalid": "Wrong email or password.",
+    "errorWeakPassword": "Password must be at least 8 characters.",
+    "checkEmail": "Please confirm your email address to activate your account."
+  },
+  "footer": {
+    "feedback": "Feedback",
+    "impressum": "Imprint",
+    "privacy": "Privacy"
+  },
+  "ageGate": {
+    "title": "Are you at least 16?",
+    "body": "Pathfinder is designed for people aged 16 and over. Please confirm your age before continuing.",
+    "confirm": "Yes, I am 16 or older",
+    "decline": "No, take me back",
+    "why": "We ask for legal reasons (GDPR) and to make sure our guidance fits your life stage."
+  },
+  "dashboard": {
+    "title": "Your conversations",
+    "empty": "You have no conversations yet. Start your first one!",
+    "startNew": "New conversation",
+    "untitled": "Untitled conversation",
+    "openConversation": "Open"
   }
 }

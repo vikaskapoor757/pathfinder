@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 interface Message {
   role: "user" | "assistant";
@@ -10,11 +11,19 @@ interface Message {
 
 interface Props {
   locale: "de" | "en";
+  initialMessages?: Message[];
+  initialConversationId?: string | null;
 }
 
-export function ChatInterface({ locale }: Props) {
+export function ChatInterface({
+  locale,
+  initialMessages = [],
+  initialConversationId = null,
+}: Props) {
   const t = useTranslations("chat");
-  const [messages, setMessages] = useState<Message[]>([]);
+  const router = useRouter();
+  const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const [conversationId, setConversationId] = useState<string | null>(initialConversationId);
   const [input, setInput] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
   const [streamingContent, setStreamingContent] = useState("");
@@ -35,11 +44,17 @@ export function ChatInterface({ locale }: Props) {
     setIsStreaming(true);
     setStreamingContent("");
 
+    let newConversationId: string | null = null;
+
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: updatedMessages, locale }),
+        body: JSON.stringify({
+          messages: updatedMessages,
+          locale,
+          conversationId,
+        }),
       });
 
       if (!res.ok || !res.body) throw new Error("Request failed");
@@ -47,30 +62,41 @@ export function ChatInterface({ locale }: Props) {
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let fullText = "";
+      let buffer = "";
 
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
-        const lines = decoder.decode(value).split("\n");
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? "";
         for (const line of lines) {
-          if (line.startsWith("data: ")) {
-            const data = line.slice(6);
-            if (data === "[DONE]") break;
-            try {
-              const { text } = JSON.parse(data);
-              fullText += text;
+          if (!line.startsWith("data: ")) continue;
+          const data = line.slice(6);
+          if (data === "[DONE]") continue;
+          try {
+            const parsed = JSON.parse(data);
+            if (parsed.type === "meta" && parsed.conversationId) {
+              newConversationId = parsed.conversationId;
+            } else if (typeof parsed.text === "string") {
+              fullText += parsed.text;
               setStreamingContent(fullText);
-            } catch {
-              // ignore malformed chunks
             }
+          } catch {
+            // ignore malformed chunks
           }
         }
       }
 
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: fullText },
-      ]);
+      setMessages((prev) => [...prev, { role: "assistant", content: fullText }]);
+
+      if (newConversationId && !conversationId) {
+        setConversationId(newConversationId);
+        // Update URL without re-rendering — preserves chat state.
+        window.history.replaceState({}, "", `/${locale}/chat/${newConversationId}`);
+        // Refresh router cache so the dashboard shows the new conversation on next visit.
+        router.refresh();
+      }
     } catch (err) {
       console.error(err);
       setMessages((prev) => [

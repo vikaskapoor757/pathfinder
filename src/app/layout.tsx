@@ -1,4 +1,5 @@
 import "./globals.css";
+import { PostHogProvider } from "@/components/PostHogProvider";
 
 export default function RootLayout({
   children,
@@ -8,7 +9,7 @@ export default function RootLayout({
   return (
     <html className="h-full">
       <body className="h-full bg-gray-50 text-gray-900 antialiased">
-        {children}
+        <PostHogProvider>{children}</PostHogProvider>
       </body>
     </html>
   );

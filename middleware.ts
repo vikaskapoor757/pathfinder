@@ -1,8 +1,16 @@
-import createMiddleware from "next-intl/middleware";
+import createIntlMiddleware from "next-intl/middleware";
+import type { NextRequest } from "next/server";
 import { routing } from "./src/i18n/routing";
+import { updateSession } from "./src/lib/supabase/middleware";
 
-export default createMiddleware(routing);
+const intl = createIntlMiddleware(routing);
+
+export default async function middleware(request: NextRequest) {
+  const response = intl(request);
+  await updateSession(request, response);
+  return response;
+}
 
 export const config = {
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
+  matcher: ["/((?!api|auth|_next|_vercel|.*\\..*).*)"],
 };
