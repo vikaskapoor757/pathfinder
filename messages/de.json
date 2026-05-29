@@ -73,6 +73,16 @@
     "empty": "Du hast noch keine Gespräche. Starte jetzt dein erstes!",
     "startNew": "Neues Gespräch",
     "untitled": "Unbenanntes Gespräch",
-    "openConversation": "Öffnen"
+    "openConversation": "Öffnen",
+    "delete": {
+      "trigger": "Konto löschen",
+      "title": "Konto wirklich löschen?",
+      "body": "Diese Aktion ist endgültig. Dein Konto, alle Gespräche und gespeicherten Empfehlungen werden sofort und unwiederbringlich gelöscht.",
+      "confirmCheckbox": "Ich habe verstanden, dass diese Aktion nicht rückgängig gemacht werden kann.",
+      "confirmButton": "Endgültig löschen",
+      "cancel": "Abbrechen",
+      "deleting": "Wird gelöscht…",
+      "errorGeneric": "Löschen fehlgeschlagen. Bitte versuche es erneut oder schreibe an contact@mypathfinderapps.com."
+    }
   }
 }

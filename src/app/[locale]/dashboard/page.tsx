@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { SiteFooter } from "@/components/SiteFooter";
+import { DeleteAccountButton } from "@/components/DeleteAccountButton";
 import { signOutAction } from "./actions";
 
 export default async function DashboardPage({
@@ -94,6 +95,10 @@ export default async function DashboardPage({
             ))}
           </ul>
         )}
+
+        <div className="mt-16 pt-6 border-t border-gray-100">
+          <DeleteAccountButton locale={safeLocale} />
+        </div>
       </main>
       <SiteFooter locale={safeLocale} />
     </div>

@@ -73,6 +73,16 @@
     "empty": "You have no conversations yet. Start your first one!",
     "startNew": "New conversation",
     "untitled": "Untitled conversation",
-    "openConversation": "Open"
+    "openConversation": "Open",
+    "delete": {
+      "trigger": "Delete account",
+      "title": "Delete your account?",
+      "body": "This action is permanent. Your account, all conversations, and saved recommendations will be deleted immediately and cannot be recovered.",
+      "confirmCheckbox": "I understand this action cannot be undone.",
+      "confirmButton": "Delete permanently",
+      "cancel": "Cancel",
+      "deleting": "Deleting…",
+      "errorGeneric": "Deletion failed. Please try again or email contact@mypathfinderapps.com."
+    }
   }
 }
