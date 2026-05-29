@@ -7,6 +7,11 @@
     "headline": "What comes after school?",
     "subheadline": "Discover your path — based on your interests, strengths, and goals.",
     "cta": "Get started",
+    "ctaSignup": "Create account",
+    "ctaLogin": "Sign in",
+    "ctaGuest": "Continue as guest",
+    "orGuestPrefix": "Or",
+    "guestNote": "Without an account, your conversation won't be saved.",
     "features": {
       "personalized": "Personalized for you",
       "personalizedDesc": "AI-powered guidance that adapts to your answers.",
@@ -23,7 +28,9 @@
     "thinking": "Pathfinder is thinking...",
     "newConversation": "New conversation",
     "saveCta": "Sign in to save your conversations",
-    "saved": "Saved"
+    "saved": "Saved",
+    "guestBanner": "You're using Pathfinder as a guest.",
+    "guestBannerNote": "Your conversation won't be saved after this session."
   },
   "nav": {
     "home": "Home",
@@ -50,10 +57,23 @@
     "signupLink": "Sign up",
     "loginLink": "Sign in",
     "ageConfirm": "I am at least 16 years old.",
+    "forgotPasswordLink": "Forgot password?",
+    "forgotPasswordTitle": "Reset password",
+    "forgotPasswordBody": "Enter your email address. We'll send you a link to set a new password.",
+    "forgotPasswordButton": "Send link",
+    "forgotPasswordSent": "If an account exists with this email, a link is on its way. Check your inbox.",
+    "backToLogin": "Back to sign in",
+    "resetPasswordTitle": "Set new password",
+    "resetPasswordBody": "Choose a new password for your account.",
+    "resetPasswordButton": "Save password",
+    "resetPasswordSuccess": "Password updated. Redirecting…",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
     "errorAgeRequired": "Please confirm that you are at least 16 years old.",
     "errorGeneric": "Something went wrong. Please try again.",
     "errorInvalid": "Wrong email or password.",
     "errorWeakPassword": "Password must be at least 8 characters.",
+    "errorPasswordMismatch": "Passwords do not match.",
     "checkEmail": "Please confirm your email address to activate your account."
   },
   "footer": {

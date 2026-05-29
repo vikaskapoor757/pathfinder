@@ -7,6 +7,11 @@
     "headline": "Was kommt nach der Schule?",
     "subheadline": "Entdecke deinen Weg — basierend auf deinen Interessen, Stärken und Zielen.",
     "cta": "Jetzt starten",
+    "ctaSignup": "Konto erstellen",
+    "ctaLogin": "Anmelden",
+    "ctaGuest": "Als Gast probieren",
+    "orGuestPrefix": "Oder",
+    "guestNote": "Ohne Konto wird dein Gespräch nicht gespeichert.",
     "features": {
       "personalized": "Personalisiert für dich",
       "personalizedDesc": "KI-gestützte Beratung, die auf deine Antworten eingeht.",
@@ -23,7 +28,9 @@
     "thinking": "Pathfinder denkt nach...",
     "newConversation": "Neue Unterhaltung",
     "saveCta": "Anmelden, um Gespräche zu speichern",
-    "saved": "Gespeichert"
+    "saved": "Gespeichert",
+    "guestBanner": "Du bist als Gast unterwegs.",
+    "guestBannerNote": "Dein Gespräch wird nach dem Schließen nicht gespeichert."
   },
   "nav": {
     "home": "Start",
@@ -50,10 +57,23 @@
     "signupLink": "Jetzt registrieren",
     "loginLink": "Hier anmelden",
     "ageConfirm": "Ich bin mindestens 16 Jahre alt.",
+    "forgotPasswordLink": "Passwort vergessen?",
+    "forgotPasswordTitle": "Passwort zurücksetzen",
+    "forgotPasswordBody": "Gib deine E-Mail-Adresse ein. Wir senden dir einen Link, um ein neues Passwort zu setzen.",
+    "forgotPasswordButton": "Link senden",
+    "forgotPasswordSent": "Wenn ein Konto mit dieser E-Mail existiert, ist ein Link unterwegs. Schau in dein Postfach.",
+    "backToLogin": "Zurück zum Login",
+    "resetPasswordTitle": "Neues Passwort setzen",
+    "resetPasswordBody": "Wähle ein neues Passwort für dein Konto.",
+    "resetPasswordButton": "Passwort speichern",
+    "resetPasswordSuccess": "Passwort aktualisiert. Du wirst weitergeleitet…",
+    "newPassword": "Neues Passwort",
+    "confirmPassword": "Passwort bestätigen",
     "errorAgeRequired": "Bitte bestätige, dass du mindestens 16 Jahre alt bist.",
     "errorGeneric": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
     "errorInvalid": "E-Mail oder Passwort ist falsch.",
     "errorWeakPassword": "Passwort muss mindestens 8 Zeichen lang sein.",
+    "errorPasswordMismatch": "Die Passwörter stimmen nicht überein.",
     "checkEmail": "Bestätige deine E-Mail-Adresse, um dein Konto zu aktivieren."
   },
   "footer": {

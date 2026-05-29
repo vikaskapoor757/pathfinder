@@ -61,6 +61,27 @@ export default async function ChatPage({
       </header>
 
       <AgeGate locale={safeLocale}>
+        {!user && (
+          <div className="bg-amber-50 border-b border-amber-200 px-4 py-2.5 text-xs text-amber-800 flex items-center justify-between gap-3 shrink-0">
+            <span>
+              <strong>{t("guestBanner")}</strong> {t("guestBannerNote")}
+            </span>
+            <div className="flex gap-2 shrink-0">
+              <Link
+                href={`/${safeLocale}/login`}
+                className="font-medium underline underline-offset-2 hover:text-amber-900"
+              >
+                {tNav("login")}
+              </Link>
+              <Link
+                href={`/${safeLocale}/signup`}
+                className="font-medium underline underline-offset-2 hover:text-amber-900"
+              >
+                {tNav("signup")}
+              </Link>
+            </div>
+          </div>
+        )}
         <ChatInterface locale={safeLocale} />
       </AgeGate>
     </div>

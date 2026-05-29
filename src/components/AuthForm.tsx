@@ -170,6 +170,16 @@ export function AuthForm({ mode, locale }: Props) {
             {mode === "signup" && (
               <p className="text-xs text-gray-400 mt-1">{t("passwordHint")}</p>
             )}
+            {mode === "login" && (
+              <p className="text-xs mt-1">
+                <Link
+                  href={`/${locale}/forgot-password`}
+                  className="text-indigo-600 hover:text-indigo-700"
+                >
+                  {t("forgotPasswordLink")}
+                </Link>
+              </p>
+            )}
           </div>
         )}
 

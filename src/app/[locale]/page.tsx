@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function LandingPage({
   params,
@@ -11,6 +12,9 @@ export default async function LandingPage({
   const safeLocale: "de" | "en" = locale === "en" ? "en" : "de";
   const otherLocale = safeLocale === "de" ? "en" : "de";
   const t = await getTranslations({ locale: safeLocale });
+
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
   return (
     <div className="min-h-full flex flex-col">
@@ -42,24 +46,50 @@ export default async function LandingPage({
             {t("landing.subheadline")}
           </p>
 
-          <Link
-            href={`/${safeLocale}/chat`}
-            className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-lg px-8 py-4 rounded-2xl transition-colors shadow-lg shadow-indigo-200"
-          >
-            {t("landing.cta")}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-5 h-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </Link>
+          {user ? (
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Link
+                href={`/${safeLocale}/dashboard`}
+                className="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-base px-6 py-3 rounded-2xl transition-colors shadow-lg shadow-indigo-200 w-full sm:w-auto"
+              >
+                {t("nav.dashboard")}
+              </Link>
+              <Link
+                href={`/${safeLocale}/chat`}
+                className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-indigo-700 border border-indigo-200 font-semibold text-base px-6 py-3 rounded-2xl transition-colors w-full sm:w-auto"
+              >
+                {t("dashboard.startNew")}
+              </Link>
+            </div>
+          ) : (
+            <>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-4">
+                <Link
+                  href={`/${safeLocale}/signup`}
+                  className="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-base px-6 py-3 rounded-2xl transition-colors shadow-lg shadow-indigo-200 w-full sm:w-auto"
+                >
+                  {t("landing.ctaSignup")}
+                </Link>
+                <Link
+                  href={`/${safeLocale}/login`}
+                  className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-indigo-700 border border-indigo-200 font-semibold text-base px-6 py-3 rounded-2xl transition-colors w-full sm:w-auto"
+                >
+                  {t("landing.ctaLogin")}
+                </Link>
+              </div>
+              <p className="text-sm text-gray-400">
+                {t("landing.orGuestPrefix")}{" "}
+                <Link
+                  href={`/${safeLocale}/chat`}
+                  className="text-gray-600 hover:text-gray-900 underline underline-offset-2"
+                >
+                  {t("landing.ctaGuest")}
+                </Link>
+                <br />
+                <span className="text-xs">{t("landing.guestNote")}</span>
+              </p>
+            </>
+          )}
         </div>
 
         {/* Feature cards */}
