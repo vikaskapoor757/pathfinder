@@ -36,7 +36,7 @@ export default async function LandingPage({
         <div className="max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-700 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
             <span className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse" />
-            {safeLocale === "de" ? "KI-gestützte Berufsberatung" : "AI-powered career guidance"}
+            {t("landing.audience")}
           </div>
 
           <h1 className="text-5xl font-extrabold tracking-tight text-gray-900 mb-4 leading-tight">

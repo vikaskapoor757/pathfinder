@@ -22,6 +22,7 @@ export function AuthForm({ mode, locale }: Props) {
   const [tab, setTab] = useState<Tab>("password");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [ageConfirmed, setAgeConfirmed] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -39,6 +40,11 @@ export function AuthForm({ mode, locale }: Props) {
 
     if (mode === "signup" && password.length < 8) {
       setError(t("errorWeakPassword"));
+      return;
+    }
+
+    if (mode === "signup" && password !== confirmPassword) {
+      setError(t("errorPasswordMismatch"));
       return;
     }
 
@@ -180,6 +186,23 @@ export function AuthForm({ mode, locale }: Props) {
                 </Link>
               </p>
             )}
+          </div>
+        )}
+
+        {tab === "password" && mode === "signup" && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              {t("confirmPassword")}
+            </label>
+            <input
+              type="password"
+              required
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="w-full rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+              autoComplete="new-password"
+              minLength={8}
+            />
           </div>
         )}
 
