@@ -67,7 +67,10 @@ export async function POST(req: Request) {
 
   const stream = anthropic.messages.stream({
     model: "claude-sonnet-4-6",
-    max_tokens: 1024,
+    // 4096 covers a full three-path recommendation with day-in-life,
+    // salary, and downsides sections. Empirically 1024 was truncating
+    // final recommendations mid-word.
+    max_tokens: 4096,
     system: [
       {
         type: "text",
