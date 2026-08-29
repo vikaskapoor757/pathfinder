@@ -113,7 +113,7 @@ export default async function LandingPage({
           ].map((f) => (
             <div
               key={f.title}
-              className="bg-white rounded-2xl p-6 text-left shadow-sm border border-gray-100"
+              className="bg-white rounded-2xl p-6 text-left border border-gray-100"
             >
               <div className="text-2xl mb-3">{f.icon}</div>
               <h3 className="font-semibold text-gray-900 mb-1">{f.title}</h3>

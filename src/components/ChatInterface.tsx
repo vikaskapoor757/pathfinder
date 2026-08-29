@@ -192,7 +192,7 @@ export function ChatInterface({
               onKeyDown={handleKeyDown}
               placeholder={t("inputPlaceholder")}
               rows={1}
-              className="flex-1 resize-none rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-transparent transition-all max-h-32 overflow-y-auto"
+              className="flex-1 resize-none rounded-xl border border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-transparent transition-all max-h-32 overflow-y-auto"
               disabled={isStreaming}
             />
             <button

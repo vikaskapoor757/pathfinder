@@ -70,7 +70,7 @@ export function ResetPasswordForm({ locale }: Props) {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+            className="w-full rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
             autoComplete="new-password"
             minLength={8}
             autoFocus
@@ -85,7 +85,7 @@ export function ResetPasswordForm({ locale }: Props) {
             required
             value={confirm}
             onChange={(e) => setConfirm(e.target.value)}
-            className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+            className="w-full rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
             autoComplete="new-password"
             minLength={8}
           />
