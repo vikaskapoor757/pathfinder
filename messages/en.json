@@ -31,7 +31,11 @@
     "saveCta": "Sign in to save your conversations",
     "saved": "Saved",
     "guestBanner": "You're using Pathfinder as a guest.",
-    "guestBannerNote": "Your conversation won't be saved after this session."
+    "guestBannerNote": "Your conversation won't be saved after this session.",
+    "voiceInput": "Reply by voice",
+    "voiceListening": "Listening…",
+    "voiceOutputOn": "Replies are read aloud",
+    "voiceOutputOff": "Read replies aloud"
   },
   "nav": {
     "home": "Home",

@@ -31,7 +31,11 @@
     "saveCta": "Anmelden, um Gespräche zu speichern",
     "saved": "Gespeichert",
     "guestBanner": "Du bist als Gast unterwegs.",
-    "guestBannerNote": "Dein Gespräch wird nach dem Schließen nicht gespeichert."
+    "guestBannerNote": "Dein Gespräch wird nach dem Schließen nicht gespeichert.",
+    "voiceInput": "Per Sprache antworten",
+    "voiceListening": "Höre zu…",
+    "voiceOutputOn": "Antworten werden vorgelesen",
+    "voiceOutputOff": "Antworten vorlesen"
   },
   "nav": {
     "home": "Start",

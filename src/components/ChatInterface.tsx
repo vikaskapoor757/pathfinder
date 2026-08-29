@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
@@ -13,6 +13,20 @@ interface Props {
   locale: "de" | "en";
   initialMessages?: Message[];
   initialConversationId?: string | null;
+}
+
+const TTS_STORAGE_KEY = "pf_tts_enabled";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type SpeechRecognitionCtor = new () => any;
+
+function getSpeechRecognition(): SpeechRecognitionCtor | null {
+  if (typeof window === "undefined") return null;
+  const w = window as unknown as {
+    SpeechRecognition?: SpeechRecognitionCtor;
+    webkitSpeechRecognition?: SpeechRecognitionCtor;
+  };
+  return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
 }
 
 export function ChatInterface({
@@ -30,12 +44,115 @@ export function ChatInterface({
   const bottomRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  // Voice input
+  const [voiceSupported, setVoiceSupported] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const recognitionRef = useRef<any>(null);
+
+  // Text-to-speech
+  const [ttsSupported, setTtsSupported] = useState(false);
+  const [ttsEnabled, setTtsEnabled] = useState(false);
+
+  useEffect(() => {
+    setVoiceSupported(!!getSpeechRecognition());
+    setTtsSupported(typeof window !== "undefined" && "speechSynthesis" in window);
+    try {
+      setTtsEnabled(window.localStorage.getItem(TTS_STORAGE_KEY) === "1");
+    } catch {
+      // Storage blocked — leave TTS off.
+    }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      recognitionRef.current?.stop?.();
+      if (typeof window !== "undefined") {
+        window.speechSynthesis?.cancel();
+      }
+    };
+  }, []);
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, streamingContent]);
 
+  const speakText = useCallback(
+    (text: string) => {
+      if (!ttsSupported || !text) return;
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = locale === "de" ? "de-DE" : "en-US";
+      utterance.rate = 1.0;
+      utterance.pitch = 1.0;
+      window.speechSynthesis.speak(utterance);
+    },
+    [ttsSupported, locale]
+  );
+
+  function toggleTts() {
+    const next = !ttsEnabled;
+    setTtsEnabled(next);
+    try {
+      window.localStorage.setItem(TTS_STORAGE_KEY, next ? "1" : "0");
+    } catch {
+      // ignore
+    }
+    if (!next && typeof window !== "undefined") {
+      window.speechSynthesis?.cancel();
+    }
+  }
+
+  function toggleListening() {
+    if (isListening) {
+      recognitionRef.current?.stop?.();
+      return;
+    }
+    const SR = getSpeechRecognition();
+    if (!SR) return;
+
+    const recognition = new SR();
+    recognition.lang = locale === "de" ? "de-DE" : "en-US";
+    recognition.interimResults = true;
+    recognition.continuous = false;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    recognition.onresult = (event: any) => {
+      let transcript = "";
+      for (let i = 0; i < event.results.length; i++) {
+        transcript += event.results[i][0].transcript;
+      }
+      setInput(transcript);
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    recognition.onerror = (event: any) => {
+      console.error("Speech recognition error:", event.error);
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognitionRef.current = recognition;
+    setIsListening(true);
+    try {
+      recognition.start();
+    } catch (err) {
+      console.error("Failed to start recognition:", err);
+      setIsListening(false);
+    }
+  }
+
   async function sendMessage(text: string) {
     if (!text.trim() || isStreaming) return;
+
+    // Stop listening + speaking when the user sends.
+    recognitionRef.current?.stop?.();
+    if (typeof window !== "undefined") {
+      window.speechSynthesis?.cancel();
+    }
 
     const userMessage: Message = { role: "user", content: text.trim() };
     const updatedMessages = [...messages, userMessage];
@@ -90,11 +207,13 @@ export function ChatInterface({
 
       setMessages((prev) => [...prev, { role: "assistant", content: fullText }]);
 
+      if (ttsEnabled && fullText) {
+        speakText(fullText);
+      }
+
       if (newConversationId && !conversationId) {
         setConversationId(newConversationId);
-        // Update URL without re-rendering — preserves chat state.
         window.history.replaceState({}, "", `/${locale}/chat/${newConversationId}`);
-        // Refresh router cache so the dashboard shows the new conversation on next visit.
         router.refresh();
       }
     } catch (err) {
@@ -190,11 +309,51 @@ export function ChatInterface({
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder={t("inputPlaceholder")}
+              placeholder={isListening ? t("voiceListening") : t("inputPlaceholder")}
               rows={1}
               className="flex-1 resize-none rounded-xl border border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-transparent transition-all max-h-32 overflow-y-auto"
               disabled={isStreaming}
             />
+
+            {ttsSupported && (
+              <button
+                type="button"
+                onClick={toggleTts}
+                title={ttsEnabled ? t("voiceOutputOn") : t("voiceOutputOff")}
+                aria-label={ttsEnabled ? t("voiceOutputOn") : t("voiceOutputOff")}
+                aria-pressed={ttsEnabled}
+                className={`rounded-xl p-3 transition-colors shrink-0 border ${
+                  ttsEnabled
+                    ? "bg-indigo-50 border-indigo-200 text-indigo-700"
+                    : "bg-white border-gray-200 text-gray-500 hover:text-gray-700"
+                }`}
+              >
+                {ttsEnabled ? (
+                  <SpeakerIcon />
+                ) : (
+                  <SpeakerMutedIcon />
+                )}
+              </button>
+            )}
+
+            {voiceSupported && (
+              <button
+                type="button"
+                onClick={toggleListening}
+                disabled={isStreaming}
+                title={isListening ? t("voiceListening") : t("voiceInput")}
+                aria-label={isListening ? t("voiceListening") : t("voiceInput")}
+                aria-pressed={isListening}
+                className={`rounded-xl p-3 transition-colors shrink-0 border ${
+                  isListening
+                    ? "bg-red-500 border-red-500 text-white animate-pulse"
+                    : "bg-white border-gray-200 text-gray-500 hover:text-gray-700"
+                }`}
+              >
+                <MicIcon />
+              </button>
+            )}
+
             <button
               onClick={() => sendMessage(input)}
               disabled={!input.trim() || isStreaming}
@@ -247,5 +406,44 @@ function MessageBubble({
         )}
       </div>
     </div>
+  );
+}
+
+function MicIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+      <path d="M10 2a3 3 0 00-3 3v5a3 3 0 006 0V5a3 3 0 00-3-3z" />
+      <path
+        fillRule="evenodd"
+        d="M4 10a1 1 0 011-1h.01a1 1 0 010 2H5a1 1 0 01-1-1zm10 0a1 1 0 011-1h.01a1 1 0 010 2H15a1 1 0 01-1-1z"
+        clipRule="evenodd"
+      />
+      <path d="M5.05 8.05a1 1 0 011.414 0 5 5 0 007.072 0 1 1 0 111.414 1.414 7 7 0 01-9.9 0 1 1 0 010-1.414z" />
+      <path d="M10 15a1 1 0 011 1v2a1 1 0 11-2 0v-2a1 1 0 011-1z" />
+    </svg>
+  );
+}
+
+function SpeakerIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+      <path
+        fillRule="evenodd"
+        d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.972 7.972 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.121 2.122a1 1 0 011.414 0A5.983 5.983 0 0116 10a5.984 5.984 0 01-2.05 4.95 1 1 0 11-1.32-1.5A3.984 3.984 0 0014 10a3.983 3.983 0 00-1.464-3.093 1 1 0 010-1.414 1 1 0 011.464 0z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
+
+function SpeakerMutedIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+      <path
+        fillRule="evenodd"
+        d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z"
+        clipRule="evenodd"
+      />
+    </svg>
   );
 }
