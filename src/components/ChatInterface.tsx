@@ -53,16 +53,25 @@ export function ChatInterface({
   // Text-to-speech
   const [ttsSupported, setTtsSupported] = useState(false);
   const [ttsEnabled, setTtsEnabled] = useState(false);
+  // Ref mirrors ttsEnabled so async stream-complete handlers read the
+  // latest value even if the user toggled during streaming.
+  const ttsEnabledRef = useRef(false);
 
   useEffect(() => {
     setVoiceSupported(!!getSpeechRecognition());
     setTtsSupported(typeof window !== "undefined" && "speechSynthesis" in window);
     try {
-      setTtsEnabled(window.localStorage.getItem(TTS_STORAGE_KEY) === "1");
+      const saved = window.localStorage.getItem(TTS_STORAGE_KEY) === "1";
+      setTtsEnabled(saved);
+      ttsEnabledRef.current = saved;
     } catch {
       // Storage blocked — leave TTS off.
     }
   }, []);
+
+  useEffect(() => {
+    ttsEnabledRef.current = ttsEnabled;
+  }, [ttsEnabled]);
 
   useEffect(() => {
     return () => {
@@ -85,6 +94,10 @@ export function ChatInterface({
       utterance.lang = locale === "de" ? "de-DE" : "en-US";
       utterance.rate = 1.0;
       utterance.pitch = 1.0;
+      utterance.onerror = (event) => {
+        // Surface errors so we can see if the browser is silently blocking us.
+        console.error("Speech synthesis error:", event);
+      };
       window.speechSynthesis.speak(utterance);
     },
     [ttsSupported, locale]
@@ -93,13 +106,24 @@ export function ChatInterface({
   function toggleTts() {
     const next = !ttsEnabled;
     setTtsEnabled(next);
+    ttsEnabledRef.current = next;
     try {
       window.localStorage.setItem(TTS_STORAGE_KEY, next ? "1" : "0");
     } catch {
       // ignore
     }
-    if (!next && typeof window !== "undefined") {
+    if (!next) {
       window.speechSynthesis?.cancel();
+      return;
+    }
+    // Speak a short confirmation from within this click handler.
+    // Two purposes:
+    //  1. Audio feedback so the user knows TTS is on
+    //  2. On iOS Safari, this call inside a user gesture unlocks the
+    //     speechSynthesis pipeline so subsequent async speak() calls
+    //     (fired from the stream-complete handler) actually play.
+    if (ttsSupported) {
+      speakText(locale === "de" ? "Sprachausgabe an." : "Voice replies on.");
     }
   }
 
@@ -207,7 +231,8 @@ export function ChatInterface({
 
       setMessages((prev) => [...prev, { role: "assistant", content: fullText }]);
 
-      if (ttsEnabled && fullText) {
+      // Read the ref, not the state — user may have toggled TTS during streaming.
+      if (ttsEnabledRef.current && fullText) {
         speakText(fullText);
       }
 
