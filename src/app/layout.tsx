@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html className={`h-full ${display.variable} ${body.variable}`}>
-      <body className="h-full bg-stone-50 text-stone-900 antialiased font-body">
+      <body className="h-full bg-stone-100 dark:bg-stone-950 text-stone-900 dark:text-stone-100 antialiased font-body">
         <PostHogProvider>{children}</PostHogProvider>
       </body>
     </html>

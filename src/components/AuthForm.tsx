@@ -119,7 +119,7 @@ export function AuthForm({ mode, locale }: Props) {
 
   return (
     <div className="w-full max-w-sm mx-auto">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-stone-100 mb-6 text-center">
         {mode === "signup" ? t("signupTitle") : t("loginTitle")}
       </h1>
 
@@ -128,7 +128,7 @@ export function AuthForm({ mode, locale }: Props) {
           type="button"
           onClick={() => setTab("password")}
           className={`flex-1 text-sm font-medium py-2 rounded-md transition-colors ${
-            tab === "password" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500"
+            tab === "password" ? "bg-white dark:bg-stone-900 text-gray-900 dark:text-stone-100 shadow-sm" : "text-gray-500 dark:text-stone-400"
           }`}
         >
           {t("tabPassword")}
@@ -137,7 +137,7 @@ export function AuthForm({ mode, locale }: Props) {
           type="button"
           onClick={() => setTab("magic")}
           className={`flex-1 text-sm font-medium py-2 rounded-md transition-colors ${
-            tab === "magic" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500"
+            tab === "magic" ? "bg-white dark:bg-stone-900 text-gray-900 dark:text-stone-100 shadow-sm" : "text-gray-500 dark:text-stone-400"
           }`}
         >
           {t("tabMagic")}
@@ -146,7 +146,7 @@ export function AuthForm({ mode, locale }: Props) {
 
       <form onSubmit={tab === "password" ? handlePassword : handleMagic} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700 dark:text-stone-300 mb-1">
             {t("email")}
           </label>
           <input
@@ -154,14 +154,14 @@ export function AuthForm({ mode, locale }: Props) {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
+            className="w-full rounded-xl border border-gray-200 dark:border-stone-700 bg-white dark:bg-stone-900 text-gray-900 dark:text-stone-100 placeholder:text-gray-400 dark:text-stone-500 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
             autoComplete="email"
           />
         </div>
 
         {tab === "password" && (
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-stone-300 mb-1">
               {t("password")}
             </label>
             <input
@@ -169,18 +169,18 @@ export function AuthForm({ mode, locale }: Props) {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
+              className="w-full rounded-xl border border-gray-200 dark:border-stone-700 bg-white dark:bg-stone-900 text-gray-900 dark:text-stone-100 placeholder:text-gray-400 dark:text-stone-500 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
               autoComplete={mode === "signup" ? "new-password" : "current-password"}
               minLength={8}
             />
             {mode === "signup" && (
-              <p className="text-xs text-gray-400 mt-1">{t("passwordHint")}</p>
+              <p className="text-xs text-gray-400 dark:text-stone-500 mt-1">{t("passwordHint")}</p>
             )}
             {mode === "login" && (
               <p className="text-xs mt-1">
                 <Link
                   href={`/${locale}/forgot-password`}
-                  className="text-teal-600 hover:text-teal-700"
+                  className="text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:text-teal-300"
                 >
                   {t("forgotPasswordLink")}
                 </Link>
@@ -191,7 +191,7 @@ export function AuthForm({ mode, locale }: Props) {
 
         {tab === "password" && mode === "signup" && (
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-stone-300 mb-1">
               {t("confirmPassword")}
             </label>
             <input
@@ -199,7 +199,7 @@ export function AuthForm({ mode, locale }: Props) {
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
+              className="w-full rounded-xl border border-gray-200 dark:border-stone-700 bg-white dark:bg-stone-900 text-gray-900 dark:text-stone-100 placeholder:text-gray-400 dark:text-stone-500 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
               autoComplete="new-password"
               minLength={8}
             />
@@ -207,25 +207,25 @@ export function AuthForm({ mode, locale }: Props) {
         )}
 
         {mode === "signup" && (
-          <label className="flex items-start gap-2 text-sm text-gray-600 cursor-pointer select-none">
+          <label className="flex items-start gap-2 text-sm text-gray-600 dark:text-stone-400 cursor-pointer select-none">
             <input
               type="checkbox"
               checked={ageConfirmed}
               onChange={(e) => setAgeConfirmed(e.target.checked)}
-              className="mt-0.5 w-4 h-4 rounded border-gray-300 text-teal-600 focus:ring-teal-300"
+              className="mt-0.5 w-4 h-4 rounded border-gray-300 text-teal-600 dark:text-teal-400 focus:ring-teal-300"
             />
             <span>{t("ageConfirm")}</span>
           </label>
         )}
 
         {error && (
-          <div className="bg-red-50 border border-red-100 text-red-700 text-sm rounded-lg px-3 py-2">
+          <div className="bg-red-50 dark:bg-red-950/40 border border-red-100 dark:border-red-900/60 text-red-700 dark:text-red-300 text-sm rounded-lg px-3 py-2">
             {error}
           </div>
         )}
 
         {info && (
-          <div className="bg-green-50 border border-green-100 text-green-700 text-sm rounded-lg px-3 py-2">
+          <div className="bg-green-50 dark:bg-green-950/40 border border-green-100 dark:border-green-900/60 text-green-700 dark:text-green-300 text-sm rounded-lg px-3 py-2">
             {info}
           </div>
         )}
@@ -243,11 +243,11 @@ export function AuthForm({ mode, locale }: Props) {
         </button>
       </form>
 
-      <p className="text-sm text-gray-500 text-center mt-6">
+      <p className="text-sm text-gray-500 dark:text-stone-400 text-center mt-6">
         {mode === "signup" ? t("hasAccount") : t("noAccount")}{" "}
         <Link
           href={`/${locale}/${mode === "signup" ? "login" : "signup"}`}
-          className="text-teal-600 hover:text-teal-700 font-medium"
+          className="text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:text-teal-300 font-medium"
         >
           {mode === "signup" ? t("loginLink") : t("signupLink")}
         </Link>

@@ -36,7 +36,7 @@ export default async function LandingPage({
         </Link>
         <Link
           href={`/${otherLocale}`}
-          className="text-sm font-medium text-stone-500 hover:text-stone-800 transition-colors border border-stone-200 rounded-full px-3 py-1"
+          className="text-sm font-medium text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:text-stone-200 transition-colors border border-stone-200 dark:border-stone-700 rounded-full px-3 py-1"
         >
           {otherLocale === "de" ? "Deutsch" : "English"}
         </Link>
@@ -45,15 +45,15 @@ export default async function LandingPage({
       {/* Hero */}
       <main className="relative flex-1 flex flex-col items-center justify-center px-6 py-20 text-center">
         <div className="max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-2 bg-teal-50 text-teal-700 text-sm font-medium px-4 py-1.5 rounded-full mb-8 border border-teal-100">
+          <div className="inline-flex items-center gap-2 bg-teal-50 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300 text-sm font-medium px-4 py-1.5 rounded-full mb-8 border border-teal-100 dark:border-teal-800/50">
             <span className="w-2 h-2 bg-teal-500 rounded-full animate-pulse" />
             {t("landing.audience")}
           </div>
 
-          <h1 className="font-display text-5xl sm:text-6xl font-bold text-stone-900 mb-6 leading-[1.05] tracking-tight">
+          <h1 className="font-display text-5xl sm:text-6xl font-bold text-stone-900 dark:text-stone-100 mb-6 leading-[1.05] tracking-tight">
             {t("landing.headline")}
           </h1>
-          <p className="text-lg sm:text-xl text-stone-500 mb-10 max-w-xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl text-stone-500 dark:text-stone-400 mb-10 max-w-xl mx-auto leading-relaxed">
             {t("landing.subheadline")}
           </p>
 
@@ -67,7 +67,7 @@ export default async function LandingPage({
               </Link>
               <Link
                 href={`/${safeLocale}/chat`}
-                className="inline-flex items-center justify-center gap-2 bg-white hover:bg-stone-50 active:scale-[0.98] text-teal-800 border border-teal-200 font-semibold text-base px-6 py-3 rounded-2xl transition-all w-full sm:w-auto"
+                className="inline-flex items-center justify-center gap-2 bg-white dark:bg-stone-900 hover:bg-stone-50 dark:bg-stone-900 active:scale-[0.98] text-teal-800 dark:text-teal-200 border border-teal-200 dark:border-teal-800/60 font-semibold text-base px-6 py-3 rounded-2xl transition-all w-full sm:w-auto"
               >
                 {t("dashboard.startNew")}
               </Link>
@@ -83,16 +83,16 @@ export default async function LandingPage({
                 </Link>
                 <Link
                   href={`/${safeLocale}/login`}
-                  className="inline-flex items-center justify-center gap-2 bg-white hover:bg-stone-50 active:scale-[0.98] text-teal-800 border border-teal-200 font-semibold text-base px-6 py-3 rounded-2xl transition-all w-full sm:w-auto"
+                  className="inline-flex items-center justify-center gap-2 bg-white dark:bg-stone-900 hover:bg-stone-50 dark:bg-stone-900 active:scale-[0.98] text-teal-800 dark:text-teal-200 border border-teal-200 dark:border-teal-800/60 font-semibold text-base px-6 py-3 rounded-2xl transition-all w-full sm:w-auto"
                 >
                   {t("landing.ctaLogin")}
                 </Link>
               </div>
-              <p className="text-sm text-stone-400">
+              <p className="text-sm text-stone-400 dark:text-stone-500">
                 {t("landing.orGuestPrefix")}{" "}
                 <Link
                   href={`/${safeLocale}/chat`}
-                  className="text-stone-600 hover:text-stone-900 underline underline-offset-2"
+                  className="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:text-stone-100 underline underline-offset-2"
                 >
                   {t("landing.ctaGuest")}
                 </Link>
@@ -124,13 +124,13 @@ export default async function LandingPage({
           ].map((f) => (
             <div
               key={f.title}
-              className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 text-left border border-stone-200/60"
+              className="bg-white dark:bg-stone-900/70 backdrop-blur-sm rounded-2xl p-6 text-left border border-stone-200 dark:border-stone-700/60"
             >
               <div className="text-2xl mb-3">{f.icon}</div>
-              <h3 className="font-display font-semibold text-stone-900 mb-1">
+              <h3 className="font-display font-semibold text-stone-900 dark:text-stone-100 mb-1">
                 {f.title}
               </h3>
-              <p className="text-sm text-stone-500 leading-relaxed">{f.desc}</p>
+              <p className="text-sm text-stone-500 dark:text-stone-400 leading-relaxed">{f.desc}</p>
             </div>
           ))}
         </div>

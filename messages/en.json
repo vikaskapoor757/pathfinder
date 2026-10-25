@@ -35,7 +35,17 @@
     "voiceInput": "Reply by voice",
     "voiceListening": "Listening…",
     "voiceOutputOn": "Replies are read aloud",
-    "voiceOutputOff": "Read replies aloud"
+    "voiceOutputOff": "Read replies aloud",
+    "progress": {
+      "start": "Hi! Let's get started",
+      "warmup": "Getting to know you",
+      "interests": "Your interests",
+      "dislikes": "What's not for you",
+      "character": "Who you are",
+      "values": "What matters to you",
+      "almostThere": "Almost there — suggestions coming",
+      "recommendations": "Your paths are ready"
+    }
   },
   "nav": {
     "home": "Home",

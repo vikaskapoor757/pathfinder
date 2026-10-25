@@ -43,13 +43,13 @@ export function AgeGate({ locale, children }: Props) {
   }
 
   return (
-    <div className="min-h-full flex items-center justify-center px-6 py-12 bg-gray-50">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+    <div className="min-h-full flex items-center justify-center px-6 py-12 bg-gray-50 dark:bg-stone-900">
+      <div className="w-full max-w-md bg-white dark:bg-stone-900 rounded-2xl shadow-sm border border-gray-100 dark:border-stone-800 p-8">
         <div className="text-4xl mb-4 text-center">🔞</div>
-        <h2 className="text-xl font-bold text-gray-900 text-center mb-2">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-stone-100 text-center mb-2">
           {t("title")}
         </h2>
-        <p className="text-sm text-gray-500 text-center mb-6 leading-relaxed">
+        <p className="text-sm text-gray-500 dark:text-stone-400 text-center mb-6 leading-relaxed">
           {t("body")}
         </p>
         <button
@@ -60,11 +60,11 @@ export function AgeGate({ locale, children }: Props) {
         </button>
         <Link
           href={`/${locale}`}
-          className="block w-full text-center text-sm font-medium text-gray-500 hover:text-gray-800 py-2"
+          className="block w-full text-center text-sm font-medium text-gray-500 dark:text-stone-400 hover:text-gray-800 dark:text-stone-200 py-2"
         >
           {t("decline")}
         </Link>
-        <p className="text-xs text-gray-400 text-center mt-4 leading-relaxed">
+        <p className="text-xs text-gray-400 dark:text-stone-500 text-center mt-4 leading-relaxed">
           {t("why")}
         </p>
       </div>

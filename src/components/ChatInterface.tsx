@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { Logo } from "./Logo";
+import { ChatProgress } from "./ChatProgress";
 
 interface Message {
   role: "user" | "assistant";
@@ -426,18 +427,20 @@ export function ChatInterface({
   }
 
   const showWelcome = messages.length === 0 && !isStreaming;
+  const userMessageCount = messages.filter((m) => m.role === "user").length;
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
+      {!showWelcome && <ChatProgress userMessageCount={userMessageCount} />}
       {/* Message area */}
       <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
         {showWelcome && (
           <div className="flex flex-col items-center justify-center h-full text-center py-12">
             <Logo variant="mark" className="h-14 w-14 mb-4" />
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-stone-200 mb-2">
               {locale === "de" ? "Willkommen bei Pathfinder" : "Welcome to Pathfinder"}
             </h2>
-            <p className="text-gray-500 max-w-sm mb-8">
+            <p className="text-gray-500 dark:text-stone-400 max-w-sm mb-8">
               {locale === "de"
                 ? "Ich helfe dir herauszufinden, welcher Weg nach der Schule zu dir passt."
                 : "I'll help you discover which path after school suits you best."}
@@ -485,10 +488,10 @@ export function ChatInterface({
 
         {isStreaming && !streamingContent && (
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-full bg-white border border-stone-200 flex items-center justify-center shrink-0">
+            <div className="w-8 h-8 rounded-full bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 flex items-center justify-center shrink-0">
               <Logo variant="mark" className="w-5 h-5" />
             </div>
-            <div className="bg-white border border-gray-100 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm">
+            <div className="bg-white dark:bg-stone-900 border border-gray-100 dark:border-stone-800 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm">
               <div className="flex gap-1 items-center h-5">
                 <span className="w-2 h-2 bg-teal-400 rounded-full animate-bounce [animation-delay:0ms]" />
                 <span className="w-2 h-2 bg-teal-400 rounded-full animate-bounce [animation-delay:150ms]" />
@@ -503,7 +506,7 @@ export function ChatInterface({
 
       {/* Input area */}
       {!showWelcome && (
-        <div className="shrink-0 border-t border-gray-100 bg-white px-4 py-3">
+        <div className="shrink-0 border-t border-gray-100 dark:border-stone-800 bg-white dark:bg-stone-900 px-4 py-3">
           <div className="flex items-end gap-2 max-w-3xl mx-auto">
             <textarea
               ref={textareaRef}
@@ -512,7 +515,7 @@ export function ChatInterface({
               onKeyDown={handleKeyDown}
               placeholder={isListening ? t("voiceListening") : t("inputPlaceholder")}
               rows={1}
-              className="flex-1 resize-none rounded-xl border border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition-all max-h-32 overflow-y-auto"
+              className="flex-1 resize-none rounded-xl border border-gray-200 dark:border-stone-700 bg-gray-50 dark:bg-stone-900 text-gray-900 dark:text-stone-100 placeholder:text-gray-400 dark:text-stone-500 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition-all max-h-32 overflow-y-auto"
               disabled={isStreaming}
             />
 
@@ -525,8 +528,8 @@ export function ChatInterface({
                 aria-pressed={ttsEnabled}
                 className={`rounded-xl p-3 transition-colors shrink-0 border ${
                   ttsEnabled
-                    ? "bg-teal-50 border-teal-200 text-teal-700"
-                    : "bg-white border-gray-200 text-gray-500 hover:text-gray-700"
+                    ? "bg-teal-50 dark:bg-teal-900/40 border-teal-200 dark:border-teal-800/60 text-teal-700 dark:text-teal-300"
+                    : "bg-white dark:bg-stone-900 border-gray-200 dark:border-stone-700 text-gray-500 dark:text-stone-400 hover:text-gray-700 dark:text-stone-300"
                 }`}
               >
                 {ttsEnabled ? (
@@ -548,7 +551,7 @@ export function ChatInterface({
                 className={`rounded-xl p-3 transition-colors shrink-0 border ${
                   isListening
                     ? "bg-red-500 border-red-500 text-white animate-pulse"
-                    : "bg-white border-gray-200 text-gray-500 hover:text-gray-700"
+                    : "bg-white dark:bg-stone-900 border-gray-200 dark:border-stone-700 text-gray-500 dark:text-stone-400 hover:text-gray-700 dark:text-stone-300"
                 }`}
               >
                 <MicIcon />
@@ -558,12 +561,12 @@ export function ChatInterface({
             <button
               onClick={() => sendMessage(input)}
               disabled={!input.trim() || isStreaming}
-              className="bg-teal-600 hover:bg-teal-700 disabled:bg-gray-200 disabled:text-gray-400 text-white rounded-xl px-4 py-3 font-medium text-sm transition-colors shrink-0"
+              className="bg-teal-600 hover:bg-teal-700 disabled:bg-gray-200 disabled:text-gray-400 dark:text-stone-500 text-white rounded-xl px-4 py-3 font-medium text-sm transition-colors shrink-0"
             >
               {t("send")}
             </button>
           </div>
-          <p className="text-xs text-gray-400 text-center mt-2">
+          <p className="text-xs text-gray-400 dark:text-stone-500 text-center mt-2">
             {locale === "de"
               ? "Senden-Button zum Absenden · Enter für neue Zeile · ⌘+Enter sendet"
               : "Click Send to submit · Enter for new line · ⌘+Enter sends"}
@@ -614,7 +617,7 @@ function MessageBubble({
       </div>
       <div className="flex flex-col gap-2 max-w-lg min-w-0">
         <div
-          className={`bg-white border border-gray-100 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm text-sm leading-relaxed text-gray-800 whitespace-pre-wrap ${isStreaming ? "border-teal-200" : ""}`}
+          className={`bg-white dark:bg-stone-900 border border-gray-100 dark:border-stone-800 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm text-sm leading-relaxed text-gray-800 dark:text-stone-200 whitespace-pre-wrap ${isStreaming ? "border-teal-200 dark:border-teal-800/60" : ""}`}
         >
           {message.content}
           {isStreaming && (
@@ -632,16 +635,16 @@ function MessageBubble({
                 "text-sm font-medium rounded-full px-4 py-2 border transition-colors touch-manipulation ";
               if (freeform) {
                 className +=
-                  "bg-white border-dashed border-gray-300 text-gray-500 hover:text-gray-800 hover:border-gray-400";
+                  "bg-white dark:bg-stone-900 border-dashed border-gray-300 text-gray-500 dark:text-stone-400 hover:text-gray-800 dark:text-stone-200 hover:border-gray-400";
               } else if (more) {
                 className +=
-                  "bg-white border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-400";
+                  "bg-white dark:bg-stone-900 border-gray-200 dark:border-stone-700 text-gray-600 dark:text-stone-400 hover:text-gray-900 dark:text-stone-100 hover:border-gray-400";
               } else if (selected) {
                 className +=
                   "bg-teal-600 border-teal-600 text-white hover:bg-teal-700";
               } else {
                 className +=
-                  "bg-teal-50 border-teal-200 text-teal-700 hover:bg-teal-100";
+                  "bg-teal-50 dark:bg-teal-900/40 border-teal-200 dark:border-teal-800/60 text-teal-700 dark:text-teal-300 hover:bg-teal-100 dark:bg-teal-900/60";
               }
               return (
                 <button

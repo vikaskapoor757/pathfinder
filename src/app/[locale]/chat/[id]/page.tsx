@@ -48,24 +48,24 @@ export default async function ResumeChatPage({
 
   return (
     <div className="h-full flex flex-col">
-      <header className="flex items-center justify-between px-4 py-3 border-b border-gray-100 bg-white/80 backdrop-blur-sm shrink-0">
+      <header className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-stone-800 bg-white dark:bg-stone-900/80 backdrop-blur-sm shrink-0">
         <div className="flex items-center gap-3 min-w-0">
           <Link
             href={`/${safeLocale}/dashboard`}
-            className="text-gray-400 hover:text-gray-700 transition-colors shrink-0"
+            className="text-gray-400 dark:text-stone-500 hover:text-gray-700 dark:text-stone-300 transition-colors shrink-0"
             aria-label={tNav("back")}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
             </svg>
           </Link>
-          <span className="font-semibold text-gray-900 truncate">
+          <span className="font-semibold text-gray-900 dark:text-stone-100 truncate">
             {conversation.title || tDash("untitled")}
           </span>
         </div>
         <Link
           href={`/${safeLocale}/chat`}
-          className="text-xs font-medium text-gray-500 hover:text-gray-800 border border-gray-200 rounded-full px-3 py-1 transition-colors shrink-0"
+          className="text-xs font-medium text-gray-500 dark:text-stone-400 hover:text-gray-800 dark:text-stone-200 border border-gray-200 dark:border-stone-700 rounded-full px-3 py-1 transition-colors shrink-0"
         >
           + {t("newConversation")}
         </Link>

@@ -47,11 +47,11 @@ export function DeleteAccountButton({ locale }: Props) {
 
   return (
     <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center px-6">
-      <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 max-w-md w-full">
-        <h2 className="text-lg font-bold text-gray-900 mb-2">{t("title")}</h2>
-        <p className="text-sm text-gray-600 mb-4 leading-relaxed">{t("body")}</p>
+      <div className="bg-white dark:bg-stone-900 rounded-2xl shadow-xl border border-gray-100 dark:border-stone-800 p-6 max-w-md w-full">
+        <h2 className="text-lg font-bold text-gray-900 dark:text-stone-100 mb-2">{t("title")}</h2>
+        <p className="text-sm text-gray-600 dark:text-stone-400 mb-4 leading-relaxed">{t("body")}</p>
 
-        <label className="flex items-start gap-2 text-sm text-gray-700 cursor-pointer select-none mb-4">
+        <label className="flex items-start gap-2 text-sm text-gray-700 dark:text-stone-300 cursor-pointer select-none mb-4">
           <input
             type="checkbox"
             checked={confirmed}
@@ -62,7 +62,7 @@ export function DeleteAccountButton({ locale }: Props) {
         </label>
 
         {error && (
-          <div className="bg-red-50 border border-red-100 text-red-700 text-sm rounded-lg px-3 py-2 mb-4">
+          <div className="bg-red-50 dark:bg-red-950/40 border border-red-100 dark:border-red-900/60 text-red-700 dark:text-red-300 text-sm rounded-lg px-3 py-2 mb-4">
             {error}
           </div>
         )}
@@ -75,7 +75,7 @@ export function DeleteAccountButton({ locale }: Props) {
               setError(null);
             }}
             disabled={submitting}
-            className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-xl transition-colors"
+            className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-stone-300 hover:bg-gray-50 dark:bg-stone-900 rounded-xl transition-colors"
           >
             {t("cancel")}
           </button>

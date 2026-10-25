@@ -35,7 +35,17 @@
     "voiceInput": "Per Sprache antworten",
     "voiceListening": "Höre zu…",
     "voiceOutputOn": "Antworten werden vorgelesen",
-    "voiceOutputOff": "Antworten vorlesen"
+    "voiceOutputOff": "Antworten vorlesen",
+    "progress": {
+      "start": "Hallo! Lass uns loslegen",
+      "warmup": "Wir lernen uns gerade kennen",
+      "interests": "Deine Interessen",
+      "dislikes": "Was dir nicht liegt",
+      "character": "Wer du bist",
+      "values": "Was dir wichtig ist",
+      "almostThere": "Fast da — gleich kommen Vorschläge",
+      "recommendations": "Deine Pfade sind bereit"
+    }
   },
   "nav": {
     "home": "Start",

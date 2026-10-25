@@ -27,9 +27,9 @@ export default async function DatenschutzPage({
       </header>
 
       <main className="flex-1 max-w-2xl mx-auto w-full px-6 py-10 prose prose-sm prose-gray">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Datenschutzerklärung</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-stone-100 mb-6">Datenschutzerklärung</h1>
 
-        <div className="mb-8 p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800">
+        <div className="mb-8 p-4 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60 rounded-lg text-sm text-amber-800 dark:text-amber-200">
           ⚠️ <strong>Entwurf — nicht für den öffentlichen Live-Betrieb geeignet.</strong>{" "}
           Dieser Text ist ein grobes Gerüst für die geschlossene Friends-and-Family-Testphase.
           Vor jeder öffentlichen Veröffentlichung muss er durch eine vollwertige
@@ -37,10 +37,10 @@ export default async function DatenschutzPage({
           juristische Beratung).
         </div>
 
-        <h2 className="text-base font-semibold text-gray-900 mt-6 mb-2">
+        <h2 className="text-base font-semibold text-gray-900 dark:text-stone-100 mt-6 mb-2">
           1. Verantwortlicher
         </h2>
-        <p className="text-sm text-gray-700 mb-4 whitespace-pre-line">
+        <p className="text-sm text-gray-700 dark:text-stone-300 mb-4 whitespace-pre-line">
           {`Vikas Kapoor
 Gundelfinger Str 17
 10318 Berlin
@@ -48,10 +48,10 @@ Deutschland
 E-Mail: contact@mypathfinderapps.com`}
         </p>
 
-        <h2 className="text-base font-semibold text-gray-900 mt-6 mb-2">
+        <h2 className="text-base font-semibold text-gray-900 dark:text-stone-100 mt-6 mb-2">
           2. Welche Daten wir verarbeiten
         </h2>
-        <ul className="text-sm text-gray-700 mb-4 list-disc list-inside space-y-1">
+        <ul className="text-sm text-gray-700 dark:text-stone-300 mb-4 list-disc list-inside space-y-1">
           <li>E-Mail-Adresse (für Anmeldung und Login)</li>
           <li>Optional verschlüsseltes Passwort (bei Passwort-Login)</li>
           <li>Sprachpräferenz (de/en)</li>
@@ -59,19 +59,19 @@ E-Mail: contact@mypathfinderapps.com`}
           <li>Technische Daten (IP-Adresse, Zeitstempel, Browser) — nur zur Sicherheit, nicht zur Profilbildung</li>
         </ul>
 
-        <h2 className="text-base font-semibold text-gray-900 mt-6 mb-2">
+        <h2 className="text-base font-semibold text-gray-900 dark:text-stone-100 mt-6 mb-2">
           3. Zweck und Rechtsgrundlage
         </h2>
-        <p className="text-sm text-gray-700 mb-4">
+        <p className="text-sm text-gray-700 dark:text-stone-300 mb-4">
           Wir verarbeiten deine Daten, um dir personalisierte Berufsorientierung anzubieten
           (Vertragserfüllung nach Art. 6 Abs. 1 lit. b DSGVO) und um den Dienst sicher zu
           betreiben (berechtigtes Interesse nach Art. 6 Abs. 1 lit. f DSGVO).
         </p>
 
-        <h2 className="text-base font-semibold text-gray-900 mt-6 mb-2">
+        <h2 className="text-base font-semibold text-gray-900 dark:text-stone-100 mt-6 mb-2">
           4. Dienste und Datenempfänger
         </h2>
-        <ul className="text-sm text-gray-700 mb-4 list-disc list-inside space-y-1">
+        <ul className="text-sm text-gray-700 dark:text-stone-300 mb-4 list-disc list-inside space-y-1">
           <li>
             <strong>Supabase</strong> (EU, Frankfurt) — Speicherung von Konten und Gesprächen.
           </li>
@@ -85,33 +85,33 @@ E-Mail: contact@mypathfinderapps.com`}
           <li>[TODO: Resend (E-Mail-Versand), Sentry (Fehlerprotokollierung), PostHog (Analytics) — ergänzen, sobald aktiviert.]</li>
         </ul>
 
-        <h2 className="text-base font-semibold text-gray-900 mt-6 mb-2">
+        <h2 className="text-base font-semibold text-gray-900 dark:text-stone-100 mt-6 mb-2">
           5. Speicherdauer
         </h2>
-        <p className="text-sm text-gray-700 mb-4">
+        <p className="text-sm text-gray-700 dark:text-stone-300 mb-4">
           Konto- und Gesprächsdaten speichern wir, solange dein Konto besteht. Bei Löschung
           deines Kontos werden alle personenbezogenen Daten unverzüglich entfernt.
         </p>
 
-        <h2 className="text-base font-semibold text-gray-900 mt-6 mb-2">
+        <h2 className="text-base font-semibold text-gray-900 dark:text-stone-100 mt-6 mb-2">
           6. Deine Rechte
         </h2>
-        <p className="text-sm text-gray-700 mb-4">
+        <p className="text-sm text-gray-700 dark:text-stone-300 mb-4">
           Du hast das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17),
           Einschränkung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch (Art. 21).
           Schreib uns dazu an contact@mypathfinderapps.com. Außerdem kannst du dich
           jederzeit bei einer Datenschutz-Aufsichtsbehörde beschweren.
         </p>
 
-        <h2 className="text-base font-semibold text-gray-900 mt-6 mb-2">
+        <h2 className="text-base font-semibold text-gray-900 dark:text-stone-100 mt-6 mb-2">
           7. Altersgrenze
         </h2>
-        <p className="text-sm text-gray-700 mb-4">
+        <p className="text-sm text-gray-700 dark:text-stone-300 mb-4">
           Pathfinder ist für Personen ab 16 Jahren gedacht. Wir setzen voraus, dass du dein
           Alter wahrheitsgemäß bestätigst (siehe Anmeldung).
         </p>
 
-        <p className="text-xs text-gray-400 mt-12">Stand: {new Date().toISOString().slice(0, 10)}</p>
+        <p className="text-xs text-gray-400 dark:text-stone-500 mt-12">Stand: {new Date().toISOString().slice(0, 10)}</p>
       </main>
 
       <SiteFooter locale={safeLocale} />

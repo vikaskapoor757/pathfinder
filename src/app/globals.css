@@ -1,11 +1,9 @@
 @import "tailwindcss";
 
-/* Site is designed light-only — tell the browser explicitly.
-   Prevents iOS Safari from applying automatic dark-mode inversions
-   that produced unreadable dark-on-dark hero text and grey textarea
-   placeholders reported by testers. */
+/* Site supports light + dark. The browser picks based on the user's
+   system setting; iOS doesn't try to invert content on its own. */
 :root {
-  color-scheme: light;
+  color-scheme: light dark;
 }
 
 @theme inline {
