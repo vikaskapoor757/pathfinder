@@ -59,27 +59,81 @@ const MORE_MARKERS = new Set([
   "more options",
 ]);
 
-// Pulls the `[OPTIONEN: ...]` or `[OPTIONS: ...]` block out of an assistant
-// message. Returns the cleaned display text + parsed options.
-// Handles the mid-stream case too: if the block is only partially written
-// (model has typed `[OPTIO` but not closed yet), the stub is hidden so the
-// user doesn't see raw markup flash in and out.
-function parseForDisplay(raw: string): { text: string; options: string[] } {
-  const complete = raw.match(/\n*\[OPTIO(?:NEN|NS):\s*([^\]]+)\]\s*$/i);
-  if (complete) {
-    return {
-      text: raw.slice(0, complete.index).trimEnd(),
-      options: complete[1]
-        .split("|")
-        .map((o) => o.trim())
-        .filter((o) => o.length > 0),
-    };
+// Known journey phases that match the system-prompt enum and the progress
+// bar's translation keys.
+const KNOWN_PHASES = new Set([
+  "start",
+  "warmup",
+  "interests",
+  "dislikes",
+  "character",
+  "values",
+  "almostThere",
+  "recommendations",
+]);
+
+// Extracts the leading emoji grapheme from an assistant message, including
+// variation selectors (U+FE0F), ZWJ (U+200D) sequences, and skin-tone
+// modifiers. Returns the emoji + the rest of the text with it stripped.
+function extractLeadingEmoji(text: string): { emoji: string | null; rest: string } {
+  const match = text.match(
+    /^(\p{Extended_Pictographic}(?:\p{Extended_Pictographic}|️|‍|\p{Emoji_Modifier})*)\s+/u
+  );
+  if (!match) return { emoji: null, rest: text };
+  return { emoji: match[1], rest: text.slice(match[0].length) };
+}
+
+// Pulls the `[OPTIONEN: ...]` / `[OPTIONS: ...]` block AND the `[PHASE: ...]`
+// marker out of an assistant message, plus extracts the leading emoji.
+// Returns the cleaned display text + parsed metadata.
+// Handles mid-stream: partially-typed markers at the end are hidden so
+// the user doesn't see raw markup flash in and out as tokens arrive.
+function parseForDisplay(raw: string): {
+  text: string;
+  options: string[];
+  phase: string | null;
+  emoji: string | null;
+} {
+  let remaining = raw;
+  let options: string[] = [];
+  let phase: string | null = null;
+
+  // 1. OPTIONS block (always last if present).
+  const optComplete = remaining.match(
+    /\n*\[OPTIO(?:NEN|NS):\s*([^\]]+)\]\s*$/i
+  );
+  if (optComplete) {
+    options = optComplete[1]
+      .split("|")
+      .map((o) => o.trim())
+      .filter((o) => o.length > 0);
+    remaining = remaining.slice(0, optComplete.index).trimEnd();
+  } else {
+    const optPartial = remaining.match(/\n*\[OPTIO/i);
+    if (optPartial) {
+      remaining = remaining.slice(0, optPartial.index).trimEnd();
+    }
   }
-  const partial = raw.match(/\n*\[OPTIO/i);
-  if (partial) {
-    return { text: raw.slice(0, partial.index).trimEnd(), options: [] };
+
+  // 2. PHASE marker (between the text and the options block).
+  const phaseComplete = remaining.match(/\n*\[PHASE:\s*([a-zA-Z]+)\]\s*$/i);
+  if (phaseComplete) {
+    const value = phaseComplete[1];
+    if (KNOWN_PHASES.has(value)) {
+      phase = value;
+    }
+    remaining = remaining.slice(0, phaseComplete.index).trimEnd();
+  } else {
+    const phasePartial = remaining.match(/\n*\[PHASE/i);
+    if (phasePartial) {
+      remaining = remaining.slice(0, phasePartial.index).trimEnd();
+    }
   }
-  return { text: raw, options: [] };
+
+  // 3. Leading emoji — used as the avatar.
+  const { emoji, rest } = extractLeadingEmoji(remaining);
+
+  return { text: rest, options, phase, emoji };
 }
 
 function isFreeformOption(opt: string): boolean {
@@ -428,10 +482,19 @@ export function ChatInterface({
 
   const showWelcome = messages.length === 0 && !isStreaming;
   const userMessageCount = messages.filter((m) => m.role === "user").length;
+  // Pull the latest phase marker Claude emitted. During streaming we read
+  // the live stream too so the progress bar updates as soon as the marker
+  // comes through.
+  const latestAssistant = isStreaming
+    ? streamingContent
+    : [...messages].reverse().find((m) => m.role === "assistant")?.content ?? "";
+  const latestPhase = parseForDisplay(latestAssistant).phase;
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
-      {!showWelcome && <ChatProgress userMessageCount={userMessageCount} />}
+      {!showWelcome && (
+        <ChatProgress userMessageCount={userMessageCount} phase={latestPhase} />
+      )}
       {/* Message area */}
       <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
         {showWelcome && (
@@ -469,6 +532,7 @@ export function ChatInterface({
             <MessageBubble
               key={i}
               message={{ ...msg, content: parsed.text }}
+              emoji={parsed.emoji}
               options={options}
               onChipClick={handleChipClick}
               currentInput={isLastAssistant ? input : ""}
@@ -476,15 +540,16 @@ export function ChatInterface({
           );
         })}
 
-        {isStreaming && streamingContent && (
-          <MessageBubble
-            message={{
-              role: "assistant",
-              content: parseForDisplay(streamingContent).text,
-            }}
-            isStreaming
-          />
-        )}
+        {isStreaming && streamingContent && (() => {
+          const parsed = parseForDisplay(streamingContent);
+          return (
+            <MessageBubble
+              message={{ role: "assistant", content: parsed.text }}
+              emoji={parsed.emoji}
+              isStreaming
+            />
+          );
+        })()}
 
         {isStreaming && !streamingContent && (
           <div className="flex items-start gap-3">
@@ -583,12 +648,14 @@ function MessageBubble({
   options = [],
   onChipClick,
   currentInput = "",
+  emoji,
 }: {
   message: Message;
   isStreaming?: boolean;
   options?: string[];
   onChipClick?: (option: string) => void;
   currentInput?: string;
+  emoji?: string | null;
 }) {
   // A chip is "selected" if its text appears as a complete comma-separated
   // segment in the current input. Used purely for visual highlighting so
@@ -612,8 +679,14 @@ function MessageBubble({
 
   return (
     <div className="flex items-start gap-3">
-      <div className="w-8 h-8 rounded-full bg-teal-600 flex items-center justify-center shrink-0">
-        <span className="text-white text-xs font-bold">P</span>
+      <div className="w-8 h-8 rounded-full bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 flex items-center justify-center shrink-0">
+        {emoji ? (
+          <span className="text-lg leading-none" aria-hidden>
+            {emoji}
+          </span>
+        ) : (
+          <Logo variant="mark" className="w-5 h-5" />
+        )}
       </div>
       <div className="flex flex-col gap-2 max-w-lg min-w-0">
         <div

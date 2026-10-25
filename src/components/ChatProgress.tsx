@@ -3,42 +3,52 @@
 import { useTranslations } from "next-intl";
 
 interface Props {
-  // Number of messages the user has sent in the current conversation.
+  // Number of messages the user has sent — used as a fallback.
   userMessageCount: number;
+  // Phase the AI signalled on its latest message, if any. Takes precedence
+  // over the count-based inference so phases can move back and forth
+  // (e.g. if the user is unsure and the AI steps back to interests).
+  phase?: string | null;
 }
 
-type Phase = {
+type PhaseInfo = {
   emoji: string;
   labelKey: string;
   progress: number;
 };
 
-// Map user-message count → journey phase. The counts align with the
-// 6-phase structure in the system prompt (warm-up → interests → dislikes
-// → character → values → context) that unlocks recommendations around
-// 12–14 exchanges.
-function getPhase(count: number): Phase {
-  if (count === 0) return { emoji: "👋", labelKey: "start", progress: 5 };
-  if (count <= 2) return { emoji: "👋", labelKey: "warmup", progress: 15 };
-  if (count <= 5) return { emoji: "💭", labelKey: "interests", progress: 32 };
-  if (count <= 7) return { emoji: "🚫", labelKey: "dislikes", progress: 48 };
-  if (count <= 10) return { emoji: "🧩", labelKey: "character", progress: 68 };
-  if (count <= 12) return { emoji: "💎", labelKey: "values", progress: 84 };
-  if (count <= 14) return { emoji: "🧭", labelKey: "almostThere", progress: 95 };
-  return { emoji: "🎯", labelKey: "recommendations", progress: 100 };
+const PHASE_INFO: Record<string, PhaseInfo> = {
+  start: { emoji: "👋", labelKey: "start", progress: 5 },
+  warmup: { emoji: "👋", labelKey: "warmup", progress: 15 },
+  interests: { emoji: "💭", labelKey: "interests", progress: 32 },
+  dislikes: { emoji: "🚫", labelKey: "dislikes", progress: 48 },
+  character: { emoji: "🧩", labelKey: "character", progress: 68 },
+  values: { emoji: "💎", labelKey: "values", progress: 84 },
+  almostThere: { emoji: "🧭", labelKey: "almostThere", progress: 95 },
+  recommendations: { emoji: "🎯", labelKey: "recommendations", progress: 100 },
+};
+
+// Fallback when the AI hasn't signalled a phase yet (e.g. first message).
+function phaseFromCount(count: number): PhaseInfo {
+  if (count === 0) return PHASE_INFO.start;
+  if (count <= 2) return PHASE_INFO.warmup;
+  if (count <= 5) return PHASE_INFO.interests;
+  if (count <= 7) return PHASE_INFO.dislikes;
+  if (count <= 10) return PHASE_INFO.character;
+  if (count <= 12) return PHASE_INFO.values;
+  if (count <= 14) return PHASE_INFO.almostThere;
+  return PHASE_INFO.recommendations;
 }
 
-export function ChatProgress({ userMessageCount }: Props) {
+export function ChatProgress({ userMessageCount, phase }: Props) {
   const t = useTranslations("chat.progress");
-  const { emoji, labelKey, progress } = getPhase(userMessageCount);
+  const info = phase && PHASE_INFO[phase] ? PHASE_INFO[phase] : phaseFromCount(userMessageCount);
+  const { emoji, labelKey, progress } = info;
 
   return (
     <div className="shrink-0 border-b border-stone-200 dark:border-stone-800 bg-white/70 dark:bg-stone-900/50 backdrop-blur-sm px-4 py-2.5">
       <div className="max-w-3xl mx-auto flex items-center gap-3">
-        <span
-          className="text-2xl shrink-0 leading-none"
-          aria-hidden
-        >
+        <span className="text-2xl shrink-0 leading-none" aria-hidden>
           {emoji}
         </span>
         <div className="flex-1 min-w-0">
