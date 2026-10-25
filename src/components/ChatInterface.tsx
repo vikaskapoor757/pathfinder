@@ -314,7 +314,22 @@ export function ChatInterface({
       textareaRef.current?.focus();
       return;
     }
-    sendMessage(option);
+    // Append the option to the input. Supports selecting multiple chips
+    // and freely editing before hitting Send. If the chip is already in
+    // the input (toggle), remove it.
+    setInput((current) => {
+      const trimmed = current.trim();
+      if (!trimmed) return option;
+      // Toggle off if already present
+      const parts = trimmed.split(/,\s*/).filter(Boolean);
+      const idx = parts.findIndex((p) => p.toLowerCase() === option.toLowerCase());
+      if (idx >= 0) {
+        parts.splice(idx, 1);
+        return parts.join(", ");
+      }
+      return `${trimmed}, ${option}`;
+    });
+    textareaRef.current?.focus();
   }
 
   function handleStartConversation() {
@@ -361,6 +376,7 @@ export function ChatInterface({
               message={{ ...msg, content: parsed.text }}
               options={isLastAssistant ? parsed.options : []}
               onChipClick={handleChipClick}
+              currentInput={isLastAssistant ? input : ""}
             />
           );
         })}
@@ -471,12 +487,22 @@ function MessageBubble({
   isStreaming,
   options = [],
   onChipClick,
+  currentInput = "",
 }: {
   message: Message;
   isStreaming?: boolean;
   options?: string[];
   onChipClick?: (option: string) => void;
+  currentInput?: string;
 }) {
+  // A chip is "selected" if its text appears as a complete comma-separated
+  // segment in the current input. Used purely for visual highlighting so
+  // the user can see which chips they've already picked.
+  const inputParts = currentInput
+    .trim()
+    .split(/,\s*/)
+    .map((p) => p.toLowerCase())
+    .filter(Boolean);
   const isUser = message.role === "user";
 
   if (isUser) {
@@ -507,14 +533,19 @@ function MessageBubble({
           <div className="flex flex-wrap gap-2 pl-1">
             {options.map((opt) => {
               const freeform = isFreeformOption(opt);
+              const selected =
+                !freeform && inputParts.includes(opt.toLowerCase());
               return (
                 <button
                   key={opt}
                   type="button"
                   onClick={() => onChipClick(opt)}
-                  className={`text-xs font-medium rounded-full px-3 py-1.5 border transition-colors ${
+                  aria-pressed={selected}
+                  className={`text-sm font-medium rounded-full px-4 py-2 border transition-colors touch-manipulation ${
                     freeform
                       ? "bg-white border-dashed border-gray-300 text-gray-500 hover:text-gray-800 hover:border-gray-400"
+                      : selected
+                      ? "bg-indigo-600 border-indigo-600 text-white hover:bg-indigo-700"
                       : "bg-indigo-50 border-indigo-200 text-indigo-700 hover:bg-indigo-100"
                   }`}
                 >

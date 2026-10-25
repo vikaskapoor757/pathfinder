@@ -5,6 +5,14 @@ interface Props {
   locale: "de" | "en";
 }
 
+// Locale-aware feedback form. German testers hit the German form,
+// English testers hit the English form (same questions, translated,
+// all fields optional).
+const FEEDBACK_FORM_URL: Record<"de" | "en", string> = {
+  de: "https://tally.so/r/Y5kjXJ",
+  en: "https://tally.so/r/BEzMlN",
+};
+
 export async function SiteFooter({ locale }: Props) {
   const t = await getTranslations({ locale, namespace: "footer" });
 
@@ -14,7 +22,7 @@ export async function SiteFooter({ locale }: Props) {
         <span>© {new Date().getFullYear()} Pathfinder</span>
         <div className="flex gap-4">
           <a
-            href="https://tally.so/r/Y5kjXJ"
+            href={FEEDBACK_FORM_URL[locale]}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-gray-600 transition-colors"
