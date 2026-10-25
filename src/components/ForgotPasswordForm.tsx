@@ -55,7 +55,7 @@ export function ForgotPasswordForm({ locale }: Props) {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+            className="w-full rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
             autoComplete="email"
             autoFocus
           />
@@ -76,7 +76,7 @@ export function ForgotPasswordForm({ locale }: Props) {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-300 text-white font-semibold py-2.5 rounded-xl transition-colors"
+          className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-gray-300 text-white font-semibold py-2.5 rounded-xl transition-colors"
         >
           {t("forgotPasswordButton")}
         </button>
@@ -85,7 +85,7 @@ export function ForgotPasswordForm({ locale }: Props) {
       <p className="text-sm text-gray-500 text-center mt-6">
         <Link
           href={`/${locale}/login`}
-          className="text-indigo-600 hover:text-indigo-700 font-medium"
+          className="text-teal-600 hover:text-teal-700 font-medium"
         >
           {t("backToLogin")}
         </Link>

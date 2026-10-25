@@ -154,7 +154,7 @@ export function AuthForm({ mode, locale }: Props) {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+            className="w-full rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
             autoComplete="email"
           />
         </div>
@@ -169,7 +169,7 @@ export function AuthForm({ mode, locale }: Props) {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+              className="w-full rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
               autoComplete={mode === "signup" ? "new-password" : "current-password"}
               minLength={8}
             />
@@ -180,7 +180,7 @@ export function AuthForm({ mode, locale }: Props) {
               <p className="text-xs mt-1">
                 <Link
                   href={`/${locale}/forgot-password`}
-                  className="text-indigo-600 hover:text-indigo-700"
+                  className="text-teal-600 hover:text-teal-700"
                 >
                   {t("forgotPasswordLink")}
                 </Link>
@@ -199,7 +199,7 @@ export function AuthForm({ mode, locale }: Props) {
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+              className="w-full rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
               autoComplete="new-password"
               minLength={8}
             />
@@ -212,7 +212,7 @@ export function AuthForm({ mode, locale }: Props) {
               type="checkbox"
               checked={ageConfirmed}
               onChange={(e) => setAgeConfirmed(e.target.checked)}
-              className="mt-0.5 w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-300"
+              className="mt-0.5 w-4 h-4 rounded border-gray-300 text-teal-600 focus:ring-teal-300"
             />
             <span>{t("ageConfirm")}</span>
           </label>
@@ -233,7 +233,7 @@ export function AuthForm({ mode, locale }: Props) {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-300 text-white font-semibold py-2.5 rounded-xl transition-colors"
+          className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-gray-300 text-white font-semibold py-2.5 rounded-xl transition-colors"
         >
           {tab === "magic"
             ? t("magicLinkButton")
@@ -247,7 +247,7 @@ export function AuthForm({ mode, locale }: Props) {
         {mode === "signup" ? t("hasAccount") : t("noAccount")}{" "}
         <Link
           href={`/${locale}/${mode === "signup" ? "login" : "signup"}`}
-          className="text-indigo-600 hover:text-indigo-700 font-medium"
+          className="text-teal-600 hover:text-teal-700 font-medium"
         >
           {mode === "signup" ? t("loginLink") : t("signupLink")}
         </Link>

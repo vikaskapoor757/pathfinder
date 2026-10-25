@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "@/components/Logo";
 import { redirect } from "next/navigation";
 import { ResetPasswordForm } from "@/components/ResetPasswordForm";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -22,8 +23,8 @@ export default async function ResetPasswordPage({
   return (
     <div className="min-h-full flex flex-col">
       <header className="px-6 py-4 max-w-5xl mx-auto w-full">
-        <Link href={`/${safeLocale}`} className="text-xl font-bold tracking-tight text-indigo-600">
-          Pathfinder
+        <Link href={`/${safeLocale}`} aria-label="Pathfinder">
+          <Logo variant="full" />
         </Link>
       </header>
       <main className="flex-1 flex items-center justify-center px-6 py-12">

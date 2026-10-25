@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "@/components/Logo";
 import { SiteFooter } from "@/components/SiteFooter";
 
 // LEGAL: This page must contain real data per §5 TMG before any public launch.
@@ -19,8 +20,8 @@ export default async function ImpressumPage({
   return (
     <div className="min-h-full flex flex-col">
       <header className="px-6 py-4 max-w-5xl mx-auto w-full">
-        <Link href={`/${safeLocale}`} className="text-xl font-bold tracking-tight text-indigo-600">
-          Pathfinder
+        <Link href={`/${safeLocale}`} aria-label="Pathfinder">
+          <Logo variant="full" />
         </Link>
       </header>
 
@@ -59,7 +60,7 @@ Deutschland`}
             href="https://ec.europa.eu/consumers/odr/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-indigo-600 hover:underline"
+            className="text-teal-600 hover:underline"
           >
             https://ec.europa.eu/consumers/odr/
           </a>

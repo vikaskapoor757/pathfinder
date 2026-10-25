@@ -7,3 +7,23 @@
 :root {
   color-scheme: light;
 }
+
+@theme inline {
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Utility classes to apply the two font families from Tailwind. */
+.font-body {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+}
+.font-display {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.015em;
+}
+
+/* Headings default to the display face. */
+h1, h2, h3 {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}

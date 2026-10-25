@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { Logo } from "./Logo";
 
 interface Message {
   role: "user" | "assistant";
@@ -432,7 +433,7 @@ export function ChatInterface({
       <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
         {showWelcome && (
           <div className="flex flex-col items-center justify-center h-full text-center py-12">
-            <div className="text-5xl mb-4">🧭</div>
+            <Logo variant="mark" className="h-14 w-14 mb-4" />
             <h2 className="text-2xl font-bold text-gray-800 mb-2">
               {locale === "de" ? "Willkommen bei Pathfinder" : "Welcome to Pathfinder"}
             </h2>
@@ -443,7 +444,7 @@ export function ChatInterface({
             </p>
             <button
               onClick={handleStartConversation}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
+              className="bg-teal-600 hover:bg-teal-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
             >
               {locale === "de" ? "Gespräch starten" : "Start conversation"}
             </button>
@@ -484,14 +485,14 @@ export function ChatInterface({
 
         {isStreaming && !streamingContent && (
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center shrink-0">
-              <span className="text-white text-xs font-bold">P</span>
+            <div className="w-8 h-8 rounded-full bg-white border border-stone-200 flex items-center justify-center shrink-0">
+              <Logo variant="mark" className="w-5 h-5" />
             </div>
             <div className="bg-white border border-gray-100 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm">
               <div className="flex gap-1 items-center h-5">
-                <span className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce [animation-delay:0ms]" />
-                <span className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce [animation-delay:150ms]" />
-                <span className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce [animation-delay:300ms]" />
+                <span className="w-2 h-2 bg-teal-400 rounded-full animate-bounce [animation-delay:0ms]" />
+                <span className="w-2 h-2 bg-teal-400 rounded-full animate-bounce [animation-delay:150ms]" />
+                <span className="w-2 h-2 bg-teal-400 rounded-full animate-bounce [animation-delay:300ms]" />
               </div>
             </div>
           </div>
@@ -511,7 +512,7 @@ export function ChatInterface({
               onKeyDown={handleKeyDown}
               placeholder={isListening ? t("voiceListening") : t("inputPlaceholder")}
               rows={1}
-              className="flex-1 resize-none rounded-xl border border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-transparent transition-all max-h-32 overflow-y-auto"
+              className="flex-1 resize-none rounded-xl border border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition-all max-h-32 overflow-y-auto"
               disabled={isStreaming}
             />
 
@@ -524,7 +525,7 @@ export function ChatInterface({
                 aria-pressed={ttsEnabled}
                 className={`rounded-xl p-3 transition-colors shrink-0 border ${
                   ttsEnabled
-                    ? "bg-indigo-50 border-indigo-200 text-indigo-700"
+                    ? "bg-teal-50 border-teal-200 text-teal-700"
                     : "bg-white border-gray-200 text-gray-500 hover:text-gray-700"
                 }`}
               >
@@ -557,7 +558,7 @@ export function ChatInterface({
             <button
               onClick={() => sendMessage(input)}
               disabled={!input.trim() || isStreaming}
-              className="bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-200 disabled:text-gray-400 text-white rounded-xl px-4 py-3 font-medium text-sm transition-colors shrink-0"
+              className="bg-teal-600 hover:bg-teal-700 disabled:bg-gray-200 disabled:text-gray-400 text-white rounded-xl px-4 py-3 font-medium text-sm transition-colors shrink-0"
             >
               {t("send")}
             </button>
@@ -599,7 +600,7 @@ function MessageBubble({
   if (isUser) {
     return (
       <div className="flex justify-end">
-        <div className="bg-indigo-600 text-white rounded-2xl rounded-tr-none px-4 py-3 max-w-sm text-sm leading-relaxed shadow-sm">
+        <div className="bg-teal-600 text-white rounded-2xl rounded-tr-none px-4 py-3 max-w-sm text-sm leading-relaxed shadow-sm">
           {message.content}
         </div>
       </div>
@@ -608,16 +609,16 @@ function MessageBubble({
 
   return (
     <div className="flex items-start gap-3">
-      <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center shrink-0">
+      <div className="w-8 h-8 rounded-full bg-teal-600 flex items-center justify-center shrink-0">
         <span className="text-white text-xs font-bold">P</span>
       </div>
       <div className="flex flex-col gap-2 max-w-lg min-w-0">
         <div
-          className={`bg-white border border-gray-100 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm text-sm leading-relaxed text-gray-800 whitespace-pre-wrap ${isStreaming ? "border-indigo-200" : ""}`}
+          className={`bg-white border border-gray-100 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm text-sm leading-relaxed text-gray-800 whitespace-pre-wrap ${isStreaming ? "border-teal-200" : ""}`}
         >
           {message.content}
           {isStreaming && (
-            <span className="inline-block w-1 h-4 bg-indigo-400 ml-0.5 animate-pulse align-middle" />
+            <span className="inline-block w-1 h-4 bg-teal-400 ml-0.5 animate-pulse align-middle" />
           )}
         </div>
         {options.length > 0 && onChipClick && (
@@ -637,10 +638,10 @@ function MessageBubble({
                   "bg-white border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-400";
               } else if (selected) {
                 className +=
-                  "bg-indigo-600 border-indigo-600 text-white hover:bg-indigo-700";
+                  "bg-teal-600 border-teal-600 text-white hover:bg-teal-700";
               } else {
                 className +=
-                  "bg-indigo-50 border-indigo-200 text-indigo-700 hover:bg-indigo-100";
+                  "bg-teal-50 border-teal-200 text-teal-700 hover:bg-teal-100";
               }
               return (
                 <button

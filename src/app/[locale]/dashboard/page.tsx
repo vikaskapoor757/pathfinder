@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { Logo } from "@/components/Logo";
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -34,8 +35,8 @@ export default async function DashboardPage({
   return (
     <div className="min-h-full flex flex-col">
       <header className="flex items-center justify-between px-6 py-4 max-w-5xl mx-auto w-full border-b border-gray-100">
-        <Link href={`/${safeLocale}`} className="text-xl font-bold tracking-tight text-indigo-600">
-          Pathfinder
+        <Link href={`/${safeLocale}`} aria-label="Pathfinder">
+          <Logo variant="full" />
         </Link>
         <div className="flex items-center gap-3">
           <span className="text-sm text-gray-500 hidden sm:inline">{user.email}</span>
@@ -55,7 +56,7 @@ export default async function DashboardPage({
           <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
           <Link
             href={`/${safeLocale}/chat`}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors"
+            className="bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors"
           >
             + {t("startNew")}
           </Link>
@@ -66,7 +67,7 @@ export default async function DashboardPage({
             <p className="text-gray-500 mb-6">{t("empty")}</p>
             <Link
               href={`/${safeLocale}/chat`}
-              className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
+              className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
             >
               {t("startNew")}
             </Link>
@@ -77,7 +78,7 @@ export default async function DashboardPage({
               <li key={c.id}>
                 <Link
                   href={`/${safeLocale}/chat/${c.id}`}
-                  className="flex items-center justify-between bg-white border border-gray-100 hover:border-indigo-200 hover:bg-indigo-50/30 rounded-xl px-4 py-3 transition-colors"
+                  className="flex items-center justify-between bg-white border border-gray-100 hover:border-teal-200 hover:bg-teal-50/30 rounded-xl px-4 py-3 transition-colors"
                 >
                   <div className="min-w-0 flex-1">
                     <p className="font-medium text-gray-900 truncate">
@@ -87,7 +88,7 @@ export default async function DashboardPage({
                       {new Date(c.updated_at).toLocaleString(safeLocale === "de" ? "de-DE" : "en-US")}
                     </p>
                   </div>
-                  <span className="text-indigo-600 text-sm font-medium shrink-0 ml-3">
+                  <span className="text-teal-600 text-sm font-medium shrink-0 ml-3">
                     {t("openConversation")} →
                   </span>
                 </Link>
