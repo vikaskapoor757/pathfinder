@@ -29,6 +29,45 @@ function getSpeechRecognition(): SpeechRecognitionCtor | null {
   return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
 }
 
+// Phrases that mean "I want to type my own answer" — chip click focuses the
+// textarea instead of auto-sending.
+const FREEFORM_MARKERS = new Set([
+  "eigene antwort",
+  "etwas anderes",
+  "etwas eigenes",
+  "sonstiges",
+  "something else",
+  "other",
+  "write my own",
+]);
+
+// Pulls the `[OPTIONEN: ...]` or `[OPTIONS: ...]` block out of an assistant
+// message. Returns the cleaned display text + parsed options.
+// Handles the mid-stream case too: if the block is only partially written
+// (model has typed `[OPTIO` but not closed yet), the stub is hidden so the
+// user doesn't see raw markup flash in and out.
+function parseForDisplay(raw: string): { text: string; options: string[] } {
+  const complete = raw.match(/\n*\[OPTIO(?:NEN|NS):\s*([^\]]+)\]\s*$/i);
+  if (complete) {
+    return {
+      text: raw.slice(0, complete.index).trimEnd(),
+      options: complete[1]
+        .split("|")
+        .map((o) => o.trim())
+        .filter((o) => o.length > 0),
+    };
+  }
+  const partial = raw.match(/\n*\[OPTIO/i);
+  if (partial) {
+    return { text: raw.slice(0, partial.index).trimEnd(), options: [] };
+  }
+  return { text: raw, options: [] };
+}
+
+function isFreeformOption(opt: string): boolean {
+  return FREEFORM_MARKERS.has(opt.trim().toLowerCase());
+}
+
 export function ChatInterface({
   locale,
   initialMessages = [],
@@ -260,10 +299,22 @@ export function ChatInterface({
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-    if (e.key === "Enter" && !e.shiftKey) {
+    // Only Cmd/Ctrl+Enter sends — plain Enter inserts a newline.
+    // Testers reported accidental sends mid-thought with the old behavior.
+    if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
       e.preventDefault();
       sendMessage(input);
     }
+  }
+
+  function handleChipClick(option: string) {
+    if (isStreaming) return;
+    if (isFreeformOption(option)) {
+      // User wants to type their own answer — focus the input, don't send.
+      textareaRef.current?.focus();
+      return;
+    }
+    sendMessage(option);
   }
 
   function handleStartConversation() {
@@ -296,13 +347,30 @@ export function ChatInterface({
           </div>
         )}
 
-        {messages.map((msg, i) => (
-          <MessageBubble key={i} message={msg} />
-        ))}
+        {messages.map((msg, i) => {
+          // Options only show on the most recent assistant message, to prevent
+          // scrolling back and re-answering already-answered questions.
+          const isLastAssistant =
+            msg.role === "assistant" &&
+            i === messages.length - 1 &&
+            !isStreaming;
+          const parsed = parseForDisplay(msg.content);
+          return (
+            <MessageBubble
+              key={i}
+              message={{ ...msg, content: parsed.text }}
+              options={isLastAssistant ? parsed.options : []}
+              onChipClick={handleChipClick}
+            />
+          );
+        })}
 
         {isStreaming && streamingContent && (
           <MessageBubble
-            message={{ role: "assistant", content: streamingContent }}
+            message={{
+              role: "assistant",
+              content: parseForDisplay(streamingContent).text,
+            }}
             isStreaming
           />
         )}
@@ -389,8 +457,8 @@ export function ChatInterface({
           </div>
           <p className="text-xs text-gray-400 text-center mt-2">
             {locale === "de"
-              ? "Enter zum Senden · Shift+Enter für neue Zeile"
-              : "Enter to send · Shift+Enter for new line"}
+              ? "Senden-Button zum Absenden · Enter für neue Zeile · ⌘+Enter sendet"
+              : "Click Send to submit · Enter for new line · ⌘+Enter sends"}
           </p>
         </div>
       )}
@@ -401,9 +469,13 @@ export function ChatInterface({
 function MessageBubble({
   message,
   isStreaming,
+  options = [],
+  onChipClick,
 }: {
   message: Message;
   isStreaming?: boolean;
+  options?: string[];
+  onChipClick?: (option: string) => void;
 }) {
   const isUser = message.role === "user";
 
@@ -422,12 +494,35 @@ function MessageBubble({
       <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center shrink-0">
         <span className="text-white text-xs font-bold">P</span>
       </div>
-      <div
-        className={`bg-white border border-gray-100 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm max-w-lg text-sm leading-relaxed text-gray-800 whitespace-pre-wrap ${isStreaming ? "border-indigo-200" : ""}`}
-      >
-        {message.content}
-        {isStreaming && (
-          <span className="inline-block w-1 h-4 bg-indigo-400 ml-0.5 animate-pulse align-middle" />
+      <div className="flex flex-col gap-2 max-w-lg min-w-0">
+        <div
+          className={`bg-white border border-gray-100 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm text-sm leading-relaxed text-gray-800 whitespace-pre-wrap ${isStreaming ? "border-indigo-200" : ""}`}
+        >
+          {message.content}
+          {isStreaming && (
+            <span className="inline-block w-1 h-4 bg-indigo-400 ml-0.5 animate-pulse align-middle" />
+          )}
+        </div>
+        {options.length > 0 && onChipClick && (
+          <div className="flex flex-wrap gap-2 pl-1">
+            {options.map((opt) => {
+              const freeform = isFreeformOption(opt);
+              return (
+                <button
+                  key={opt}
+                  type="button"
+                  onClick={() => onChipClick(opt)}
+                  className={`text-xs font-medium rounded-full px-3 py-1.5 border transition-colors ${
+                    freeform
+                      ? "bg-white border-dashed border-gray-300 text-gray-500 hover:text-gray-800 hover:border-gray-400"
+                      : "bg-indigo-50 border-indigo-200 text-indigo-700 hover:bg-indigo-100"
+                  }`}
+                >
+                  {opt}
+                </button>
+              );
+            })}
+          </div>
         )}
       </div>
     </div>
