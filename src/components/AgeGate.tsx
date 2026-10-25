@@ -54,7 +54,7 @@ export function AgeGate({ locale, children }: Props) {
         </p>
         <button
           onClick={handleConfirm}
-          className="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2.5 rounded-xl transition-colors mb-3"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-xl transition-colors mb-3"
         >
           {t("confirm")}
         </button>

@@ -70,7 +70,7 @@ export function ResetPasswordForm({ locale }: Props) {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-xl border border-gray-200 dark:border-stone-700 bg-white dark:bg-stone-900 text-gray-900 dark:text-stone-100 placeholder:text-gray-400 dark:text-stone-500 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
+            className="w-full rounded-xl border border-gray-200 dark:border-stone-700 bg-white dark:bg-stone-900 text-gray-900 dark:text-stone-100 placeholder:text-gray-400 dark:text-stone-500 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
             autoComplete="new-password"
             minLength={8}
             autoFocus
@@ -85,7 +85,7 @@ export function ResetPasswordForm({ locale }: Props) {
             required
             value={confirm}
             onChange={(e) => setConfirm(e.target.value)}
-            className="w-full rounded-xl border border-gray-200 dark:border-stone-700 bg-white dark:bg-stone-900 text-gray-900 dark:text-stone-100 placeholder:text-gray-400 dark:text-stone-500 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
+            className="w-full rounded-xl border border-gray-200 dark:border-stone-700 bg-white dark:bg-stone-900 text-gray-900 dark:text-stone-100 placeholder:text-gray-400 dark:text-stone-500 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
             autoComplete="new-password"
             minLength={8}
           />
@@ -106,7 +106,7 @@ export function ResetPasswordForm({ locale }: Props) {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-gray-300 text-white font-semibold py-2.5 rounded-xl transition-colors"
+          className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 text-white font-semibold py-2.5 rounded-xl transition-colors"
         >
           {t("resetPasswordButton")}
         </button>

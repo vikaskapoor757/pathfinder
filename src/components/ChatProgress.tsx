@@ -68,7 +68,7 @@ export function ChatProgress({ userMessageCount, phase }: Props) {
             aria-valuemax={100}
           >
             <div
-              className="h-full bg-teal-600 dark:bg-teal-400 rounded-full transition-all duration-700 ease-out"
+              className="h-full bg-blue-600 dark:bg-blue-400 rounded-full transition-all duration-700 ease-out"
               style={{ width: `${progress}%` }}
             />
           </div>

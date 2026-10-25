@@ -510,7 +510,7 @@ export function ChatInterface({
             </p>
             <button
               onClick={handleStartConversation}
-              className="bg-teal-600 hover:bg-teal-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
             >
               {locale === "de" ? "Gespräch starten" : "Start conversation"}
             </button>
@@ -558,9 +558,9 @@ export function ChatInterface({
             </div>
             <div className="bg-white dark:bg-stone-900 border border-gray-100 dark:border-stone-800 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm">
               <div className="flex gap-1 items-center h-5">
-                <span className="w-2 h-2 bg-teal-400 rounded-full animate-bounce [animation-delay:0ms]" />
-                <span className="w-2 h-2 bg-teal-400 rounded-full animate-bounce [animation-delay:150ms]" />
-                <span className="w-2 h-2 bg-teal-400 rounded-full animate-bounce [animation-delay:300ms]" />
+                <span className="w-2 h-2 bg-blue-400 rounded-full animate-bounce [animation-delay:0ms]" />
+                <span className="w-2 h-2 bg-blue-400 rounded-full animate-bounce [animation-delay:150ms]" />
+                <span className="w-2 h-2 bg-blue-400 rounded-full animate-bounce [animation-delay:300ms]" />
               </div>
             </div>
           </div>
@@ -580,7 +580,7 @@ export function ChatInterface({
               onKeyDown={handleKeyDown}
               placeholder={isListening ? t("voiceListening") : t("inputPlaceholder")}
               rows={1}
-              className="flex-1 resize-none rounded-xl border border-gray-200 dark:border-stone-700 bg-gray-50 dark:bg-stone-900 text-gray-900 dark:text-stone-100 placeholder:text-gray-400 dark:text-stone-500 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition-all max-h-32 overflow-y-auto"
+              className="flex-1 resize-none rounded-xl border border-gray-200 dark:border-stone-700 bg-gray-50 dark:bg-stone-900 text-gray-900 dark:text-stone-100 placeholder:text-gray-400 dark:text-stone-500 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all max-h-32 overflow-y-auto"
               disabled={isStreaming}
             />
 
@@ -593,7 +593,7 @@ export function ChatInterface({
                 aria-pressed={ttsEnabled}
                 className={`rounded-xl p-3 transition-colors shrink-0 border ${
                   ttsEnabled
-                    ? "bg-teal-50 dark:bg-teal-900/40 border-teal-200 dark:border-teal-800/60 text-teal-700 dark:text-teal-300"
+                    ? "bg-blue-50 dark:bg-blue-900/40 border-blue-200 dark:border-blue-800/60 text-blue-700 dark:text-blue-300"
                     : "bg-white dark:bg-stone-900 border-gray-200 dark:border-stone-700 text-gray-500 dark:text-stone-400 hover:text-gray-700 dark:text-stone-300"
                 }`}
               >
@@ -626,7 +626,7 @@ export function ChatInterface({
             <button
               onClick={() => sendMessage(input)}
               disabled={!input.trim() || isStreaming}
-              className="bg-teal-600 hover:bg-teal-700 disabled:bg-gray-200 disabled:text-gray-400 dark:text-stone-500 text-white rounded-xl px-4 py-3 font-medium text-sm transition-colors shrink-0"
+              className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-200 disabled:text-gray-400 dark:text-stone-500 text-white rounded-xl px-4 py-3 font-medium text-sm transition-colors shrink-0"
             >
               {t("send")}
             </button>
@@ -670,7 +670,7 @@ function MessageBubble({
   if (isUser) {
     return (
       <div className="flex justify-end">
-        <div className="bg-teal-600 text-white rounded-2xl rounded-tr-none px-4 py-3 max-w-sm text-sm leading-relaxed shadow-sm">
+        <div className="bg-blue-600 text-white rounded-2xl rounded-tr-none px-4 py-3 max-w-sm text-sm leading-relaxed shadow-sm">
           {message.content}
         </div>
       </div>
@@ -690,11 +690,11 @@ function MessageBubble({
       </div>
       <div className="flex flex-col gap-2 max-w-lg min-w-0">
         <div
-          className={`bg-white dark:bg-stone-900 border border-gray-100 dark:border-stone-800 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm text-sm leading-relaxed text-gray-800 dark:text-stone-200 whitespace-pre-wrap ${isStreaming ? "border-teal-200 dark:border-teal-800/60" : ""}`}
+          className={`bg-white dark:bg-stone-900 border border-gray-100 dark:border-stone-800 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm text-sm leading-relaxed text-gray-800 dark:text-stone-200 whitespace-pre-wrap ${isStreaming ? "border-blue-200 dark:border-blue-800/60" : ""}`}
         >
           {message.content}
           {isStreaming && (
-            <span className="inline-block w-1 h-4 bg-teal-400 ml-0.5 animate-pulse align-middle" />
+            <span className="inline-block w-1 h-4 bg-blue-400 ml-0.5 animate-pulse align-middle" />
           )}
         </div>
         {options.length > 0 && onChipClick && (
@@ -716,12 +716,12 @@ function MessageBubble({
                   "dark:bg-stone-800 dark:border-stone-600 dark:text-stone-200 dark:hover:text-white dark:hover:border-stone-500";
               } else if (selected) {
                 className +=
-                  "bg-teal-600 border-teal-600 text-white hover:bg-teal-700 " +
-                  "dark:bg-teal-400 dark:border-teal-400 dark:text-stone-950 dark:hover:bg-teal-300";
+                  "bg-blue-600 border-blue-600 text-white hover:bg-blue-700 " +
+                  "dark:bg-blue-400 dark:border-blue-400 dark:text-stone-950 dark:hover:bg-blue-300";
               } else {
                 className +=
-                  "bg-teal-50 border-teal-200 text-teal-700 hover:bg-teal-100 " +
-                  "dark:bg-teal-900 dark:border-teal-700 dark:text-teal-100 dark:hover:bg-teal-800";
+                  "bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 " +
+                  "dark:bg-blue-900 dark:border-blue-700 dark:text-blue-100 dark:hover:bg-blue-800";
               }
               return (
                 <button

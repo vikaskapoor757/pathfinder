@@ -56,7 +56,7 @@ export default async function DashboardPage({
           <h1 className="text-2xl font-bold text-gray-900 dark:text-stone-100">{t("title")}</h1>
           <Link
             href={`/${safeLocale}/chat`}
-            className="bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors"
+            className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors"
           >
             + {t("startNew")}
           </Link>
@@ -67,7 +67,7 @@ export default async function DashboardPage({
             <p className="text-gray-500 dark:text-stone-400 mb-6">{t("empty")}</p>
             <Link
               href={`/${safeLocale}/chat`}
-              className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
+              className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
             >
               {t("startNew")}
             </Link>
@@ -78,7 +78,7 @@ export default async function DashboardPage({
               <li key={c.id}>
                 <Link
                   href={`/${safeLocale}/chat/${c.id}`}
-                  className="flex items-center justify-between bg-white dark:bg-stone-900 border border-gray-100 dark:border-stone-800 hover:border-teal-200 dark:border-teal-800/60 hover:bg-teal-50 dark:bg-teal-900/40/30 rounded-xl px-4 py-3 transition-colors"
+                  className="flex items-center justify-between bg-white dark:bg-stone-900 border border-gray-100 dark:border-stone-800 hover:border-blue-200 dark:border-blue-800/60 hover:bg-blue-50 dark:bg-blue-900/40/30 rounded-xl px-4 py-3 transition-colors"
                 >
                   <div className="min-w-0 flex-1">
                     <p className="font-medium text-gray-900 dark:text-stone-100 truncate">
@@ -88,7 +88,7 @@ export default async function DashboardPage({
                       {new Date(c.updated_at).toLocaleString(safeLocale === "de" ? "de-DE" : "en-US")}
                     </p>
                   </div>
-                  <span className="text-teal-600 dark:text-teal-400 text-sm font-medium shrink-0 ml-3">
+                  <span className="text-blue-600 dark:text-blue-400 text-sm font-medium shrink-0 ml-3">
                     {t("openConversation")} →
                   </span>
                 </Link>

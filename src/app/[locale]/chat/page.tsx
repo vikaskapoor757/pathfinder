@@ -38,7 +38,7 @@ export default async function ChatPage({
           {!user && (
             <Link
               href={`/${safeLocale}/login`}
-              className="text-xs font-medium text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800/60 bg-teal-50 dark:bg-teal-900/40 rounded-full px-3 py-1 transition-colors"
+              className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800/60 bg-blue-50 dark:bg-blue-900/40 rounded-full px-3 py-1 transition-colors"
             >
               {t("saveCta")}
             </Link>

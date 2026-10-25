@@ -60,7 +60,7 @@ Deutschland`}
             href="https://ec.europa.eu/consumers/odr/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-teal-600 dark:text-teal-400 hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
           >
             https://ec.europa.eu/consumers/odr/
           </a>
