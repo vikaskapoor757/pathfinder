@@ -88,6 +88,67 @@ function isMoreOption(opt: string): boolean {
   return MORE_MARKERS.has(opt.trim().toLowerCase());
 }
 
+// Walks back from `lastIdx` through chains of (user "andere Vorschläge" →
+// assistant) pairs and collects ALL options the user has been shown for the
+// current question. The user asked for chips to accumulate — the previous
+// batch stays selectable alongside each new batch, rather than being replaced.
+//
+// Deduplicates case-insensitively, preserving first-shown order for content
+// chips. Meta chips (`andere Vorschläge`, `eigene Antwort`) are appended once
+// at the end regardless of how many rounds have happened.
+function aggregateOptions(
+  messages: Message[],
+  lastIdx: number
+): string[] {
+  const content: string[] = [];
+  const seen = new Set<string>();
+  let more: string | null = null;
+  let freeform: string | null = null;
+
+  const push = (opt: string) => {
+    const key = opt.trim().toLowerCase();
+    if (seen.has(key)) return;
+    seen.add(key);
+    if (isMoreOption(opt)) {
+      more = opt;
+    } else if (isFreeformOption(opt)) {
+      freeform = opt;
+    } else {
+      content.push(opt);
+    }
+  };
+
+  // Collect from the current assistant message, then walk backward through
+  // (assistant → user:more) pairs merging each previous assistant's options.
+  const batches: string[][] = [];
+  let i = lastIdx;
+  while (i >= 0 && messages[i]?.role === "assistant") {
+    batches.push(parseForDisplay(messages[i].content).options);
+    const prevUser = messages[i - 1];
+    const prevAssistant = messages[i - 2];
+    if (
+      prevUser?.role === "user" &&
+      isMoreOption(prevUser.content) &&
+      prevAssistant?.role === "assistant"
+    ) {
+      i -= 2;
+    } else {
+      break;
+    }
+  }
+
+  // Earliest batch first so chip order feels stable as rounds accumulate.
+  for (const batch of batches.reverse()) {
+    for (const opt of batch) push(opt);
+  }
+
+  return [
+    ...content,
+    ...(more ? [more] : []),
+    ...(freeform ? [freeform] : []),
+  ];
+}
+
 export function ChatInterface({
   locale,
   initialMessages = [],
@@ -397,11 +458,14 @@ export function ChatInterface({
             i === messages.length - 1 &&
             !isStreaming;
           const parsed = parseForDisplay(msg.content);
+          // Accumulate chips across "andere Vorschläge" rounds so earlier
+          // suggestions stay selectable alongside new ones.
+          const options = isLastAssistant ? aggregateOptions(messages, i) : [];
           return (
             <MessageBubble
               key={i}
               message={{ ...msg, content: parsed.text }}
-              options={isLastAssistant ? parsed.options : []}
+              options={options}
               onChipClick={handleChipClick}
               currentInput={isLastAssistant ? input : ""}
             />
