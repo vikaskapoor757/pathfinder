@@ -708,16 +708,20 @@ function MessageBubble({
                 "text-sm font-medium rounded-full px-4 py-2 border transition-colors touch-manipulation ";
               if (freeform) {
                 className +=
-                  "bg-white dark:bg-stone-900 border-dashed border-gray-300 text-gray-500 dark:text-stone-400 hover:text-gray-800 dark:text-stone-200 hover:border-gray-400";
+                  "bg-white border-dashed border-stone-300 text-stone-500 hover:text-stone-800 hover:border-stone-400 " +
+                  "dark:bg-stone-800 dark:border-stone-600 dark:text-stone-300 dark:hover:text-stone-100 dark:hover:border-stone-500";
               } else if (more) {
                 className +=
-                  "bg-white dark:bg-stone-900 border-gray-200 dark:border-stone-700 text-gray-600 dark:text-stone-400 hover:text-gray-900 dark:text-stone-100 hover:border-gray-400";
+                  "bg-white border-stone-300 text-stone-600 hover:text-stone-900 hover:border-stone-400 " +
+                  "dark:bg-stone-800 dark:border-stone-600 dark:text-stone-200 dark:hover:text-white dark:hover:border-stone-500";
               } else if (selected) {
                 className +=
-                  "bg-teal-600 border-teal-600 text-white hover:bg-teal-700";
+                  "bg-teal-600 border-teal-600 text-white hover:bg-teal-700 " +
+                  "dark:bg-teal-400 dark:border-teal-400 dark:text-stone-950 dark:hover:bg-teal-300";
               } else {
                 className +=
-                  "bg-teal-50 dark:bg-teal-900/40 border-teal-200 dark:border-teal-800/60 text-teal-700 dark:text-teal-300 hover:bg-teal-100 dark:bg-teal-900/60";
+                  "bg-teal-50 border-teal-200 text-teal-700 hover:bg-teal-100 " +
+                  "dark:bg-teal-900 dark:border-teal-700 dark:text-teal-100 dark:hover:bg-teal-800";
               }
               return (
                 <button
