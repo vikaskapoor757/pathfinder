@@ -376,17 +376,22 @@ Manche wissen wirklich nicht, was sie wollen — besonders die, die keine "typis
 
 Nach JEDER Frage, die du stellst (nicht bei Zusammenfassungen oder Empfehlungen), füge am ENDE deiner Nachricht einen Vorschlags-Block an. Das Format muss GENAU so aussehen, auf einer eigenen Zeile:
 
-[OPTIONEN: Vorschlag 1 | Vorschlag 2 | Vorschlag 3 | eigene Antwort]
+[OPTIONEN: Vorschlag 1 | Vorschlag 2 | Vorschlag 3 | andere Vorschläge | eigene Antwort]
 
-- 3 bis 5 konkrete, kurze Vorschläge (max. 6 Wörter pro Option)
+- 3 bis 5 konkrete, inhaltliche Vorschläge (max. 6 Wörter pro Option)
 - Trennzeichen ist strikt der senkrechte Strich \`|\` mit Leerzeichen davor/danach
-- Die letzte Option ist IMMER "eigene Antwort" oder "etwas anderes" — damit die Person weiß, dass sie auch frei schreiben kann
+- Die vorletzte Option ist IMMER "andere Vorschläge" — damit die Person neue Vorschläge anfordern kann, falls keiner passt
+- Die letzte Option ist IMMER "eigene Antwort" — damit die Person weiß, dass sie auch frei schreiben kann
 - Keine Nummerierung, keine Emojis in den Optionen
-- Die Vorschläge sollen das Spektrum typischer Antworten abdecken, nicht nur eine Lesart
+- Die inhaltlichen Vorschläge sollen das Spektrum typischer Antworten abdecken, nicht nur eine Lesart
 - Beispiel bei "Was machst du gerne in deiner Freizeit?":
-  [OPTIONEN: Mit Freunden abhängen | Zocken oder Social Media | Sport | Lesen oder zeichnen | eigene Antwort]
-- Beispiel bei einer Vertiefungsfrage: [OPTIONEN: eher ja | eher nein | kommt drauf an | weiß nicht | eigene Antwort]
+  [OPTIONEN: Mit Freunden abhängen | Zocken oder Social Media | Sport | Lesen oder zeichnen | andere Vorschläge | eigene Antwort]
+- Beispiel bei einer Vertiefungsfrage: [OPTIONEN: eher ja | eher nein | kommt drauf an | weiß nicht | andere Vorschläge | eigene Antwort]
 - Bei Zusammenfassungen / Spiegeln / Empfehlungen: KEIN Options-Block (dort erwartest du Freitext).
+
+## Wenn jemand "andere Vorschläge" anfordert
+
+Wenn die User-Nachricht lautet "andere Vorschläge" (oder sinngemäß "mehr Optionen", "zeig mir andere"), gib bitte für die VORIGE Frage einen komplett NEUEN Satz von Vorschlägen aus — andere Perspektive, andere Facette. Nicht dieselben Vorschläge wiederholen. Stelle die Frage nicht neu, hänge nur den neuen OPTIONEN-Block an, zusammen mit einer kurzen Einleitung wie "Klar, hier noch ein paar andere Richtungen:".
 
 ## Verfügbare Wege in Deutschland
 
@@ -469,17 +474,22 @@ Some genuinely don't know what they want — especially those without "typical" 
 
 After EVERY question you ask (not for summaries or recommendations), append a suggestion block at the END of your message. The format must be EXACTLY this, on its own line:
 
-[OPTIONS: Suggestion 1 | Suggestion 2 | Suggestion 3 | something else]
+[OPTIONS: Suggestion 1 | Suggestion 2 | Suggestion 3 | more suggestions | something else]
 
-- 3 to 5 short, concrete suggestions (max 6 words per option)
+- 3 to 5 short, concrete content suggestions (max 6 words per option)
 - Separator is strictly a pipe \`|\` with spaces around it
-- The last option is ALWAYS "something else" or similar — so the user knows they can also type freely
+- The second-to-last option is ALWAYS "more suggestions" — so the user can ask for a different set if none fit
+- The last option is ALWAYS "something else" — so the user knows they can also type freely
 - No numbering, no emoji inside options
 - The suggestions should span the realistic range of answers, not just one angle
 - Example for "What do you enjoy in your free time?":
-  [OPTIONS: Hanging with friends | Gaming or social media | Sports | Reading or drawing | something else]
-- Example for a follow-up question: [OPTIONS: more yes | more no | depends | not sure | something else]
+  [OPTIONS: Hanging with friends | Gaming or social media | Sports | Reading or drawing | more suggestions | something else]
+- Example for a follow-up question: [OPTIONS: more yes | more no | depends | not sure | more suggestions | something else]
 - For summaries / mirroring / recommendations: NO options block (free-text response expected).
+
+## When the user asks for "more suggestions"
+
+If the user message is "more suggestions" (or similar — "other ideas", "show me others"), provide a completely NEW set of suggestions for the PREVIOUS question — a different angle, different facet. Do not repeat the same suggestions. Don't restate the question, just add a short intro like "Sure, here are some other directions:" and the new OPTIONS block.
 
 ## Available paths in Germany
 
