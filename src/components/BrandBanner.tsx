@@ -9,14 +9,14 @@ interface Props {
 // aspect ratio inside a responsive container.
 export function BrandBanner({ className }: Props) {
   return (
-    <div className={`relative w-full max-w-2xl mx-auto ${className ?? ""}`}>
+    <div className={`relative w-full max-w-sm sm:max-w-md mx-auto ${className ?? ""}`}>
       <Image
         src="/brand/pathfinder-banner.png"
         alt="Pathfinder — Explore today. Build tomorrow."
         width={1240}
         height={1240}
         priority
-        sizes="(min-width: 768px) 640px, 100vw"
+        sizes="(min-width: 640px) 448px, 100vw"
         className="w-full h-auto rounded-2xl"
       />
     </div>
